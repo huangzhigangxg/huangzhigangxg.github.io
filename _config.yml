@@ -6,17 +6,17 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: I am Chuan !
-name: DONGChuan
-email: dongchuan55@gmail.com
-location: Nice, France
-company: Gfi Informatique
-company_url: http://www.gfi.fr/en/
-github_url: https://github.com/DONGChuan
-description: This is personnel website of DONG Chuan
+title: I am Huang !
+name: Huang Zhigang
+email: huangzhigang1024@gmail.com
+location: Beijing, China
+company: Leeco
+company_url: http://www.leeco.com/
+github_url: https://github.com/callmebill
+description: This is personnel website of Huang Zhigang
 favicon: favicon.png # Image must be in assets/images
 
-url: http://dongchuan.github.io # the base hostname & protocol for your site
+url: http://callmebill.github.io # the base hostname & protocol for your site
 
 ## Gem
 gems:
@@ -55,9 +55,9 @@ navs:
     href: /
     label: Home
 
-  -
-    href: /open-source
-    label: Open-Source
+#  -
+#    href: /open-source
+#    label: Open-Source
 
   -
     href: /blog
@@ -82,7 +82,6 @@ analytics :
 
 
 # For about.html. Fell free to create your own!
-skill_software_keywords: [Java, C, C++, Qt, Python, MySQL, Oracle, SQLite, PL/SQL, Design Patterns]
-skill_j2ee_keywords: [Spring, Struct, Hibernet, MyBatis, JSP]
-skill_web_keywords: [HTML, CSS, JS, JQuery, Ajax, AngularJS, NodeJS, ExpressJS, MongoDB, Redis, PHP, Symfony, Boostrap]
-skill_mobile_app_keywords: [Android, Sketch UI Desgin]
+skill_software_keywords: [Objective-C, C, Swift]
+skill_back_keywords: [Golang, Docker, Jenkins]
+skill_mobile_app_keywords: [iOS, Sketch UI Desgin]
