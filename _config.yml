@@ -43,7 +43,7 @@ kramdown:
   enable_coderay: true
 
 # Disque
-disque: httpdongchuangithubio.disqus.com
+#disque: httpdongchuangithubio.disqus.com
 
 # Pagination
 paginate: 10
@@ -82,6 +82,5 @@ analytics :
 
 
 # For about.html. Fell free to create your own!
-skill_software_keywords: [Objective-C, C, Swift]
+skill_iOS_keywords: [Objective-C, C, Swift, RxSwift ,JSPatch]
 skill_back_keywords: [Golang, Docker, Jenkins]
-skill_mobile_app_keywords: [iOS, Sketch UI Desgin]
