@@ -10,18 +10,17 @@ date: 2016-11-12 15:32:24.000000000 +09:00
 
 # iDev开发者大会
 
-
 记录大会上的收获有些关键词涉及到的技术暂且留在这里，需要今后扩展和修正
 
 
-### Swift开发服务器
+## Swift开发服务器
 
 
 TODO： kitura！了解 nginx？apache？的概念 做一个服务器demo！ 
 DETAIL：客户端在交互与展示，服务器的重点在日志库进程检测库！
 
 
-### 大项目组件化
+## 大项目组件化
 
 
 DETAIL：大项目的业务线众多，必须用组件化方式隔离各个模块分别开发，开发要点：
@@ -34,7 +33,7 @@ DETAIL：大项目的业务线众多，必须用组件化方式隔离各个模�
 + 6 通过WWDC视频 练练口语拼读吧。
 
 
-### MacOX操作系统
+## MacOX操作系统
 
 DETAIL：带着问题去了解MacOX操作系统，
 
@@ -46,7 +45,7 @@ MacOX linuc unix系统都有用户空间和内核空间，用户空间将操作�
 只是保留寄存器里的一些数据 以及当前的命令地址在哪，大约4K的数据，将这4k数据先保存到其他的地方，等切换回来时，重新恢复这4k数据。
 
 
-### linker 和 loader
+## linker 和 loader
 
 
 DETAIL:了解代码是如何编译载入内存并执行的
@@ -101,7 +100,7 @@ Class cls = NSClassFromString(@"Sark");
 + [参考](https://my.oschina.net/kaqijiang/blog/649632)
 
 
-### 单元测试和自动化
+## 单元测试和自动化
 DETAIL:必须将mvc改为mvvm！
 
 + 测试必须从项目刚开始时就开始写 边写开发代码一边写测试代码！才会越来越健壮！
@@ -111,7 +110,7 @@ DETAIL:必须将mvc改为mvvm！
 
 TODO：jenkins远程自动化测试？ github PR ？
 
-### 响应式编程
+## 响应式编程
 
 DETAIL：一般有callback 就算是响应式的编程
 
@@ -125,7 +124,7 @@ DETAIL：一般有callback 就算是响应式的编程
 
 
 
-### 会后资料
+## 会后资料
 
 iDev 苹果开发者大会视频直播地址：
 http://m.quzhiboapp.com/?liveId=180

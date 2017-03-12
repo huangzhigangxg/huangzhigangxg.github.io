@@ -7,13 +7,13 @@ date: 2017-03-09 15:32:24.000000000 +09:00
 
 ---
 
-# 资源路径中包含汉字
+## 资源路径中包含汉字
 
 一般来说 从系统api中取出来的地址都是进过UTF8编码的。如果自己通过借助文件系统找出部分地址，再通过获取可能包含汉字的文件名 来拼接出完整地址时，需要自己手动进行UTF8编码。
 NSString *imagePath = [imagePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
 
-# ASCII编码 GB2312编码 Unicode编码 UTF8编码 UTF16编码 这些都是嘎哈滴呢？
+## ASCII编码 GB2312编码 Unicode编码 UTF8编码 UTF16编码 这些都是嘎哈滴呢？
 
 ASCII编码：最开始计算机用1和0表达人们用的语言，就发明了ASCII码 用一个字节总共有255个不同状态表达可以表达255种字符 其实当时也就用上了一半就足以表达一些通用的简单的字符和英文字母。
 

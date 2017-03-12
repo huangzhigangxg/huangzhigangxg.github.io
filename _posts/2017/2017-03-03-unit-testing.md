@@ -7,7 +7,7 @@ date: 2017-03-02 15:32:24.000000000 +09:00
 
 ---
 
-### 基础逻辑测试
+## 基础逻辑测试
 ```
     override func setUp() {
         super.setUp() //为开始测试准备环境
@@ -22,7 +22,7 @@ date: 2017-03-02 15:32:24.000000000 +09:00
     }
 
 ```
-### 异步加载测试
+## 异步加载测试
     func testGetSomeData() { //以test开头
         let e = expectation(description: "GetSomeData Error")
         self.api
@@ -42,9 +42,9 @@ date: 2017-03-02 15:32:24.000000000 +09:00
     }
 
 
-### 数据Mock测试
+## 数据Mock测试
 当测试的目标依赖其他对象时，可以用Mock用于模拟一个对象的返回
-##### MyClass.swift
+### MyClass.swift
 ```
 import Foundation
 import CoreData
@@ -64,7 +64,7 @@ class MyClass {
     }
 }
 ```
-##### TestFile.swift
+### TestFile.swift
 
 ```
   // Yay for verbose test names!  :]
@@ -88,7 +88,7 @@ class MyClass {
     }
 ```
 [参考](https://www.andrewcbancroft.com/2014/07/15/how-to-create-mocks-and-stubs-in-swift/)
-### Code Coverage 测试覆盖率
+## Code Coverage 测试覆盖率
 在product->scheme->Edit Scheme->Test里面将Code Coverage模式打开
 测试成功后可以在这里看到
 ![](/assets/images/WX20170302-155306@2x.png){:  height="200px"}

@@ -7,7 +7,7 @@ date: 2017-01-13 15:32:24.000000000 +09:00
 
 ---
 
-# 关于线控：
+## 关于线控：
 
 
 ### IOS7之前：
@@ -26,7 +26,7 @@ date: 2017-01-13 15:32:24.000000000 +09:00
 有MPRemoteCommandCenter可以方便的监听远程控制 不用再有上面的1和2步.
 
 
-# 关于插拔：
+## 关于插拔：
 
 
 ### IOS6之前：
@@ -85,7 +85,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 }
 ```
 
-# ### 最后代码
+## 最后代码
 
 ```
 #pragma mark - headSet

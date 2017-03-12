@@ -7,7 +7,7 @@ date: 2017-02-24 15:32:24.000000000 +09:00
 
 ---
 
-##### Undefined symbols for architecture XXXXX
+# Undefined symbols for architecture XXXXX
 Apple Mach-O Linker 连接器在为某个架构连接可执行代码时，找不到符号信息，也就是说缺少相应的链接符号。很可能就是代码中有些依赖的静态库`.a` 动态库`framework` 没有被加入工程中，可以根据错误提示的`_inflate` `_deflate` 等Google到相应的库，添加即可
 
 + i386 通常是编译模拟器版本

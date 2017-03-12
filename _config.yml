@@ -80,7 +80,6 @@ analytics :
   google :
       tracking_id : 'UA-72165600-1'
 
-
 # For about.html. Fell free to create your own!
 skill_iOS_keywords: [Objective-C, C, Swift, RxSwift ,JSPatch]
 skill_back_keywords: [Golang, Docker, Jenkins]

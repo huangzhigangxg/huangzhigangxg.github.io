@@ -1,7 +1,7 @@
 ---
 layout: post
 
-title: 测量启动时间
+title: 测量应用启动时间
 
 date: 2017-02-16 15:32:24.000000000 +09:00
 
@@ -30,7 +30,7 @@ Total pre-main time:  89.36 milliseconds (100.0%) //main之前的总时间
 
 需要自己创建main.swift,并屏蔽掉//@UIApplicationmain . 在info.plist中加上main.storyboard. 在main.swift 中自己写main函数入口：
 
-##### main.swift
+### main.swift
 
 {% highlight swift %}
 
@@ -44,7 +44,7 @@ UIApplicationMain(CommandLine.argc,
 
 {% endhighlight %}
 
-##### FirstViewController.swift
+### FirstViewController.swift
 
 {% highlight swift %}
 

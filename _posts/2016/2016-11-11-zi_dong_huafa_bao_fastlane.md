@@ -6,7 +6,7 @@ title: 自动化发包fastlane
 date: 2016-11-18 15:32:24.000000000 +09:00
 
 ---
-# 自动化发包fastlane
+## 自动化发包fastlane
 
 从Archive开始到商店上架，所有的操作可以由fastlane帮你完成，简明来说要配置一个Fastfile文本文件，这里面定义的很多命令集。 
 
@@ -25,7 +25,7 @@ date: 2016-11-18 15:32:24.000000000 +09:00
 + TODO：test 测试viewModel 接口
 + TODO：Bugly.sh 获取的share URL 直接发到测试同学的微信群里。标明修改后待测试的bug号，
 
-# 最后Fastfile文件
+## 最后Fastfile文件
 ```
   desc "Runs all the tests"
   lane :test do
