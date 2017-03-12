@@ -1,44 +1,76 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="1504.81">
-  <style type="text/css">
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000}
-    li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 14.0px; font: 12.0px Times; color: #0000ee; -webkit-text-stroke: #0000ee}
-    span.s1 {font-kerning: none}
-    span.s2 {color: #000000; -webkit-text-stroke: 0px #000000}
-    span.s3 {font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000}
-    span.s4 {text-decoration: underline ; font-kerning: none; color: #0000ee; -webkit-text-stroke: 0px #0000ee}
-    span.s5 {font: 11.0px '.AppleSystemUIFont'; font-kerning: none; background-color: #c0c0c0}
-    ul.ul1 {list-style-type: disc}
-  </style>
-</head>
-<body>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; line-height: 22.0px; font: 18.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>About ME</b></span></h2>
-<p class="p2"><span class="s1">I love coding.I would like to be a CTO in the future.</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; line-height: 22.0px; font: 18.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>Contact</b></span></h2>
-<ul class="ul1">
-  <li class="li3"><span class="s2"></span><span class="s3">Emailï¼š<a href="mailto:%7B%7B%20site.email%20%7D%7D"><span class="s4">{{ site.email }}</span></a></span></li>
-  <li class="li3"><span class="s2"></span><span class="s3">Websiteï¼š<a href="file:///Users/leeco/Desktop/callmebill.github.io/_includes/%7B%7B%20site.github_url%20%7D%7D"><span class="s4">{{ site.github_url }}</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; line-height: 22.0px; font: 18.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>Skill Keywords</b></span></h2>
+<div class="about row">
 
+    <div class="col-md-8">
 
-<p class="p4"><span class="s1">{% if site.skill_iOS_keywords %}</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; line-height: 17.0px; font: 14.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>Software Engineer Keywords</b></span></h3>
-<p class="p4"><span class="s1">{% for keyword in site.skill_iOS_keywords %} </span><span class="s5">{{ keyword }}</span><span class="s1"> {% endfor %}<span class="Apple-converted-space"> </span></span></p>
+        <h2>About me</h2>
 
+        <p>BlaBlaBla BlaBlaBla BlaBlaBla BlaBlaBla BlaBlaBla BlaBlaBla BlaBlaBla BlaBlaBla</p>
 
-<p class="p4"><span class="s1">{% endif %} {% if site.skill_back_keywords %}</span></p>
-<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; line-height: 17.0px; font: 14.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>J2EE Developer Keywords</b></span></h3>
-<p class="p4"><span class="s1">{% for keyword in site.skill_back_keywords %} </span><span class="s5">{{ keyword }}</span><span class="s1"> {% endfor %}<span class="Apple-converted-space"> </span></span></p>
+        <h2>Contact</h2>
 
-<p class="p4"><span class="s1">{% endif %}<span class="Apple-converted-space"> </span></span></p>
-<p class="p4"><span class="s1">{% include sidebar-popular-repo.html %}<span class="Apple-converted-space"> </span></span></p>
-</body>
-</html>
+        <ul>
+            <li>Email：<a href="mailto:{{ site.email }}" target="_top">{{ site.email }}</a></li>
+            <li>GitHub：<a href="{{ site.github_url }}">{{ site.github_url }}</a></li>
+        </ul>
+
+        <h2>Skill Keywords</h2>
+
+        {% if site.skill_software_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Software Engineer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_software_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if site.skill_j2ee_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">J2EE Developer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_j2ee_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if site.skill_mobile_app_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Mobile Developer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_mobile_app_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if site.skill_web_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Web Developer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_web_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-4">
+        {% include sidebar-popular-repo.html %}
+    </div>
+
+</div>
