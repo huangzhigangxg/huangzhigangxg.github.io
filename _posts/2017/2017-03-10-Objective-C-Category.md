@@ -34,7 +34,7 @@ date: 2017-03-16 15:32:24.000000000 +09:00
 
 经过 `clang -rewrite-objc MyClass.m` 命令看看Category底层结构体具体实现。
 
-```C++
+```c++
 // @implementation MyClass
 
 
