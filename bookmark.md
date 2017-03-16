@@ -8,12 +8,15 @@ menu: Bookmark
 
 ## IOS
 - [Popping](https://github.com/schneiderandre/popping) - A collection of animation examples for iOS apps.
-- [参考](https://github.com/ming1016/study/wiki)
+- [参考](https://github.com/ming1016/study/wiki) 
 - [孙源](http://blog.sunnyxx.com)
-- [JPatch](http://blog.cnbang.net/archives/)
-- [RxSwift](http://blog.dianqk.org/archives/)
-
-### Symfony
+- [objccn.io](https://objccn.io) - 中文 iOS 翻译社区
+- [JPatch](http://blog.cnbang.net/archives/) - iOS 热更新策略
+- [RxSwift](http://blog.dianqk.org/archives/) - 响应式Swift编程
+- [swift.gg](http://swift.gg) - 中文 Swift 翻译社区
+- [Swift 学习指引](http://www.swiftguide.cn) - Swift 学习指引
+- [泊学](https://boxueio.com) - iOS 全栈开发视频教程
+## Symfony
 - [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle) - Generate a decent documentation for your APIs
 - [FOSRestBundle](http://symfony.com/doc/current/bundles/FOSRestBundle/index.html) - Creat a REST API with Symfony2
 
