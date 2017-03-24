@@ -52,7 +52,7 @@ dequeue出队时 取 array[head] 并且 head = (head + 1)%arrayLength
 
 ### 遍历算法 DFS 和  BFS
 
-#### DFS   (Depth-First-Search)     广度优先
+#### DFS   (Depth-First-Search) 广度优先
 
 规律 ：一层一层遍历，从距离近的节点到距离远的。
 
