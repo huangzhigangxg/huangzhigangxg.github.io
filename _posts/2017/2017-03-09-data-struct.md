@@ -64,7 +64,7 @@ dequeue出队时 取 array[head] 并且 head = (head + 1)%arrayLength
 
 借助栈的先入后出的原则
 
-![](assets/images/9F909745-9890-4F89-B474-5CBDE00374B6.png)
+![](/assets/images/9F909745-9890-4F89-B474-5CBDE00374B6.png)
 
 ### 优缺点
 

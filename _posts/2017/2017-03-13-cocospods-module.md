@@ -19,7 +19,7 @@ date: 2017-03-21 15:34:24.000000000 +09:00
 8. 添加编译依赖只需要在*Main*主工程的General的Embedded Binaries里选择业务模块工程生成的Framework就可以了。
 9. 编译运行。
 
-![](assets/images/WX20170322-153706@2x.png)
+![](/assets/images/WX20170322-153706@2x.png)
 
 ### 需要注意的地方
 
@@ -42,7 +42,7 @@ date: 2017-03-21 15:34:24.000000000 +09:00
 ```
 + [framework中关于资源的读取](http://www.jianshu.com/p/3549984315bf)
 
-## 利用CocosPod在本地维护这些子模块
+## 2.利用CocosPod在本地维护这些子模块
 
 + 在子模块中生成 xxxx.podspec 描述源码和资源的组织方式，和想一些项目信息等。
 	+ cd Login && pod spec create Login
@@ -59,6 +59,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/callmebill/Login.git", :tag => "#{s.version}" }
   s.source_files  = 'Login/Source/*.swift'
   s.resources = 'Login/Resources/*.{png,xib,storyboard,xcassets}'
+end
 ```
 
 + 在主工程中生成Podfile描述需要导入哪些子模块
@@ -74,7 +75,7 @@ end
 
 ```
 	
-## 搭建私有cocoapods仓库
+## 3.搭建私有cocoapods仓库
 
 这个过程大概是这样，先创建私有Spec仓库，然后将自己的Pod工程push到Github上，把Pod的xxxx.spec传到私有Spec仓库中管理。将私有Spec仓库的地址soucre放到Podfile中，就可以使用像其他第三方库一样使用了。
 
@@ -101,7 +102,7 @@ target 'Main' do
 end
 ```
 
-## 利用CocosPod将组件二进制化提高编译速度
+## 4.利用CocosPod将组件二进制化提高编译速度
 
 1. 将生成好的Login.framework 放到工程路径下。ps:选用relese版本，因为Build active Architecture Only Debug 为YES。Relese包含了真正的你想要的架构版本 也就是 `Valid Architectures`和 `Architectures`的交集
 2. 添加 `s.vendored_frameworks = 'Login/Login.framework'`
@@ -130,15 +131,13 @@ Pod::Spec.new do |s|
   # s.source_files  = 'Login/Source/*.swift'
   # s.resources = 'Login/Resources/*.{png,xib,storyboard,xcassets}'
   s.vendored_frameworks = 'Login/Login.framework'
-
+end
 ```
 下次Pod再被拉取时，就只有`Login/Login.framework`.没有资源文件和源代码。
 
-![](assets/images/WX20170324-120831@2x.png)
+![](/assets/images/WX20170324-120831@2x.png)
 
-
-
-## 发布项目到CocoaPods
+## 5.发布项目到CocoaPods
 
 + 注册trunk，不是任何人都能推送，因为cocoapods依赖trunk服务器管理，所以需要通过trunk推送自己的podspec（cocoapods官网）
 + 命令：pod trunk register EMAIL [NAME]
