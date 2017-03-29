@@ -12,11 +12,11 @@ email: huangzhigang1024@gmail.com
 location: Beijing, China
 company: Leeco
 company_url: http://www.leeco.com/
-github_url: https://github.com/callmebill
+github_url: https://github.com/huangzhigangxg
 description: This is personnel website of Huang Zhigang
 favicon: favicon.png # Image must be in assets/images
 
-url: http://callmebill.github.io # the base hostname & protocol for your site
+url: http://huangzhigangxg.github.io # the base hostname & protocol for your site
 
 ## Gem
 gems:
