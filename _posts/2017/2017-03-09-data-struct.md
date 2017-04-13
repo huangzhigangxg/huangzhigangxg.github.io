@@ -1,11 +1,268 @@
 ---
 layout: post
 
-title: 数据结构
+title: 数据结构与算法笔记
 
 date: 2017-03-09 15:32:24.000000000 +09:00
 
 ---
+
+## 前言
+学习数据结构的目的就是为了更高效的管理数据，对数据的操作无非就是增删改查，数组和链表简单的结构都可以管理数据。但是碰到需要管理大量的数据时，他们的增删改查效率就很难符合生产要求，需要更高效的数据结构来提高增删改查的效率。比如 哈希表，树，图。这些高效的结构体比数组和链表的结构也更复杂，能表达的数据逻辑更多。
+
+
+## 数组
+数组经常用来做数据的排序。先看看关于数组的几种常见的排序算法，以及他们的优缺点。
+
+[若算法的T(n) = O(log n)，则称其具有对数时间。由于计算机使用二进制的记数系统，对数常常以2为底（即log2 n，有时写作lg n）。然而，由对数的换底公式，loga n和logb n只有一个常数因子不同，这个因子在大O记法中被丢弃。因此记作O（log n），而不论对数的底是多少，是对数时间算法的标准记法。](https://zh.wikipedia.org/wiki/时间复杂度)
+
+### 插入排序:直接插入，希尔排序
+
+```C
+//每次都从后面无序那出一个像前边有序部分插入。
+void insertSort(int a[] , int size)
+{
+  int temp,j;
+  for (int i = 1; i < size ; i ++) {
+    temp = a[i];
+    for ( j = i - 1; (a[j] > temp) && (j >= 0); j--) {
+      a[j+1] = a[j];
+    }
+    a[j+1] = temp;
+  }
+}
+//第一种比较好理解的方法，但是代码比较长。
+void shellSortV1(int a[],int size)
+{
+    for (int gap = size/2 ; gap > 0 ; gap = gap / 2){
+        for (int i = 0 ; i < gap ; i ++ ){
+            for (int j = i + gap ; j < size ; j = j + gap){
+                for (int m = j - gap ; m >= 0 && a[m] > a[j] ; m = m - gap) {
+                    swap(&a[m], &a[m+gap]);
+                }
+            }
+        }
+    }
+}
+//第二种比较精简，一个gap确定后，成功分组，所有组一起靠一个for循环遍历，相比第一种每一组单独遍历要简洁多。
+void shellSortV2(int a[] , int size)
+{
+    for (int gap = size/2 ; gap > 0 ; gap = gap / 2){
+        for (int i = gap ; i < size ; i = i + 1){
+            for (int m = i - gap ; m >= 0 && a[m] > a[i] ; m = m - gap) {
+                swap(&a[m], &a[m+gap]);
+            }
+        }
+    }
+}
+```
+	 | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 是否稳定排序
+----|--------------|--------------|----------|-----------
+直接插入 | O(n^2)  | O(n^2) | O(1) | 是
+希尔排序 | 已知最好步长O(nlogn) | O(n^2) |O(1) |否
+
+备注：
+
+1. 希尔排序是改进版的插入排序，根据递减的步长，将相邻较远的元素做比较，一次交换可以性解决多个逆序。所以突破的插入排序的O(n^2)的界限。
+2. 由于是通过远距离比较提高效率的。所以不能保证稳定性。
+3. 还有希尔排序的步长不同，时间复杂度不同。
+
+### 交换排序：冒泡排序，快速排序 
+
+```C
+//起泡排序：每次把最小的比出来。
+void bubbleSort(int a[] , int size)
+{
+  for (int i = 0; i < size - 1; i++) {
+    for (int j = i + 1; j < size; j++) {
+      if (a[j] < a[i]) {
+        swap(&a[j],&a[i]);
+      }
+    }
+  }
+}
+//分治的思想：
+void quickSort(int a[] , int left , int right)
+{
+  if (left >= right) {
+    return;
+  }
+  int i = left, j = right, key = a[left];
+  while (i<j) {
+    while (a[j] > key && i < j) {
+      j--;
+    }
+    a[i] = a[j];
+    while (a[i] < key && i < j) {
+      i++;
+    }
+    a[j] = a[i];
+  }
+  a[i] = key;
+  quickSort(a, left, i-1);
+  quickSort(a, i+1,right);
+}
+
+```
+	 | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 是否稳定排序
+----|--------------|--------------|----------|-----------
+冒泡排序 | O(n^2)  | O(n^2) | O(1) | 是
+快速排序 | O(nlogn) | O(n^2) | O(logn)~O(n) |否
+
+备注：
+
+1. 快速排序相比起泡排序，区别是远距离比较和交换，提高效率的。所以也不能保证稳定性。
+
+
+### 选择排序：直接选择，堆排序
+
+```C
+void selectSort(int a[] , int size)
+{
+  int temp ,k;
+  for (int i = 0; i < size - 1; i++) {
+    k = i;
+    for (int j = i + 1; j < size; j++) {
+      if (a[j] < a[k]) {
+        k = j;
+      }
+    }
+    swap(&a[k],&a[i]);
+  }
+}
+//构建大顶堆
+/*
+ 现实情况index从1开始，满足 rChild = 2*root , lChild = 2*root + 1
+ 数组实现时index从0开始，满足 rChild = 2*root + 1, lChild = 2*root + 2
+ */
+void sift(int a[] ,int index , int size)
+{
+    int temp,child;
+    for (temp = a[index]; 2*index + 1 < size; index = child) {
+        child = 2*index + 1;
+        if (child + 1 < size && a[child + 1] > a[child]) {
+            child = child + 1;
+        }
+        if ( a[child] > temp ){
+            a[index] = a[child];
+        }else{
+            break;
+        }
+    }
+    a[index] = temp;
+}
+
+void heapSort(int a[] , int size)
+{
+    for (int i = 0; i <= size/2 ; i ++) {
+        sift(a,i,size);
+    }
+    for (int i = size - 1; i > 0; i -- ) {
+        swap(&a[i], &a[0]);
+        sift(a, 0, i);
+    }
+}
+
+```
+	 | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 是否稳定排序
+----|--------------|--------------|----------|-----------
+直接选择 | O(n^2)  | O(n^2) | O(1) | 是
+堆排序 	| O(nlogn) | O(nlogn) |O(1)  |否
+
+备注：
+
+1. 堆排序和选择排序 都是每次从无序区遍历选择最大或者最小的一项，放在有序的区域。但是堆排序在无序区对比的次数少直接选择排序，选择排序需要对比n次，堆排序对比的logn次。所以效率比选择排序高。
+2. 堆排序由于也是通过远距离比较提高效率的，所以不能保证稳定性。
+3. 但堆排序的好处是最坏情况要比快速排序好很多 O(nlogn) < O(n^2)
+4. 在堆中找到最大值或者最小值，只需要logn的复杂度！可以用来海量数据搜素
+
+### 合并排序 
+
+```C
+void mergeSort(int a[] , int beign , int end)
+{
+    if (beign < end)
+    {
+        int mid = ( beign + end ) /2;
+        mergeSort(a, beign, mid);
+        mergeSort(a, mid + 1, end);
+        merge(a,beign,mid,end);
+    }
+}
+void merge(int a[] , int begin , int mid , int end)
+{
+    int leftSize = mid - begin + 1;
+    int rightSize = end - mid;
+    int left[leftSize],right[rightSize];
+    int leftIndex = 0 ,rightIndex = 0 ;
+    for (int i = 0 ; i < leftSize; i ++) {
+        left[i] = a[begin + i];
+    }
+    for (int i = 0 ; i < rightSize; i ++) {
+        right[i] = a[mid + 1 + i];
+    }
+    for (int i = begin; i <= end; i ++) {
+        if (leftIndex >= leftSize){
+            a[i] = right[rightIndex++];
+        }else if (rightIndex >= rightSize){
+            a[i] = left[leftIndex++];
+        }else if (left[leftIndex] > right[rightIndex]){
+            a[i] = right[rightIndex ++];
+        }else{
+            a[i] = left[leftIndex ++];
+        }
+    }
+}
+
+```
+	 | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 是否稳定排序
+----|--------------|--------------|----------|-----------
+合并排序 | O(nlogn) | O(nlogn) |O(n)  |是
+
+备注 ：
+
+1. 合并排序是唯一最差时间复杂度为O(nlogn)的稳定排序。
+2. 缺点就是需要额外n的空间。
+
+## 数组和链表区别
+1. 数组空间连续，靠偏移量定位元素，时间复杂度O(1),插入和删除是 O(n). 
+2. 链表空间不连续，靠遍历节点定位元素，时间复杂度O(n),插入和删除是O(1).
+
+数组比链表更擅长查找，链表比数组更擅长修改。
+
+## 数组和链表的查找
+
+数据结构中有个叫`符号表`的东西，和字典比较像，是Key-Value方式记录数据的容器。操作`符号表`时，如果想更新某个值，先检索Key，有的话更新值，没有的插入容器中，可以通过有序数组和无序链表来实现。
+
+```C
+//数组的二分法查找
+int binSearch(int a[],int size,int data)
+{
+    int left = 0,right = size -1;
+    int mid;
+    while (left <= right) {
+        mid = (left + right)/2;
+        if (a[mid] == data){
+            return mid;
+        }else if(a[mid] > data){
+            right = mid - 1;
+        }else{
+            left = mid + 1;
+        }
+    }
+    return -1;
+}
+```
+
+	 | 查找 | 插入 
+----|-----|-----
+链表 | O(n) | O(n) 
+数组 | O(logn) | O(n) 
+
+无序链表的实现方法中，查找是 O(n)，虽然插入新值可以在表头插入，但是插入新的值也要先遍历O(n)一遍。
+有序数组虽然可以利用二分法将查找速度降低为O(logn) 但是插入一个新的值除了要找到位置还要讲后面的元素后移，所以还是O(n)的效率并不高。
+
+`下面介绍查找和插入速度都在O(logn)范围的结构体 ：树 (二叉树)`
 
 ## 栈和队列
 
@@ -17,11 +274,140 @@ date: 2017-03-09 15:32:24.000000000 +09:00
 enqueue入队时 取 array[tail] 并且 tail = (tail + 1)%arrayLength
 dequeue出队时 取 array[head] 并且 head = (head + 1)%arrayLength
 仔细想一下，这样做法可以循环利用数组，每次一出一进，前面会有用过空出的空间，但是 每次tail和head都是+1 模size，这样就能重复利用前面的空间了。注意判断size的大小，如果size大于arrayLength了就要及时扩充。
+扩充的办法可以采用简单的数据拷贝，开辟双倍的空间realloc，再便利数组拷贝进去。
+
+```C
+//数组实现的Stack
+#define stack_size 128
+typedef struct Stack{
+  BiTree *data[stack_size];
+  int top;
+}Stack;
+
+void stack_init(Stack *pStack)
+{
+  memset(pStack,0,sizeof(Stack));
+  pStack->top = -1;
+}
+BiTree *stack_pop(Stack *pStack)
+{
+  if (stack_is_empty(pStack)) {
+    return NULL;
+  }
+  return pStack->data[pStack->top--];
+}
+int stack_push(Stack *pStack,BiTree *data)
+{
+  if (pStack->top == stack_size-1) {
+    return 0;
+  }
+  pStack->data[++pStack->top] = data;
+  return 1;
+}
+int stack_is_empty(Stack *pStack)
+{
+  return pStack->top == -1;
+}
+BiTree * stack_get_top(Stack *pStack)
+{
+  if (pStack ->top == -1) {
+    return NULL;
+  }else{
+    return pStack->data[pStack->top];
+  }
+}
+void stack_destroy(Stack *pStack)
+{
+    pStack ->top = -1;
+}
+
+//数组实现的Queue
+#define queue_size 4
+typedef struct Queue {
+    BiTree *data[queue_size];
+    int head;
+    int tail;
+    int size;
+}Queue;
+
+void queue_init(Queue *queue)
+{
+    memset(queue,0,sizeof(queue));
+    queue->head = -1;
+    queue->tail = -1;
+    queue->size = 0;
+}
+void queue_destroy(Queue *queue)
+{
+    queue->head = -1;
+    queue->tail = -1;
+    queue->size = 0;
+}
+int queue_enqueue(Queue *queue,BiTree *node)
+{
+    if (queue_is_full(queue)) {
+        printf("queue_is_full");
+        return 0;
+    }
+    queue->head = (queue->head+1)%queue_size;
+    queue->size++;
+    queue->data[queue->head] = node;
+    return 1;
+}
+BiTree * queue_dequeue(Queue *queue)
+{
+    if (queue_is_empty(queue)){
+        printf("queue_is_empty");
+        return NULL;
+    }
+    queue->tail = (queue->tail+1)%queue_size;
+    queue->size--;
+    return queue->data[queue->tail];
+}
+int queue_is_empty(Queue *queue)
+{
+    return queue->size == 0;
+}
+int queue_is_full(Queue *queue)
+{
+    return queue->size == queue_size;
+}
+void queue_print(Queue *queue)
+{
+    printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    int index = queue->tail;
+    for (int i = 0 ; i < queue->size ; i++ ){
+        index = (index + 1)%queue_size;
+        printf("%d\n",queue->data[index]->data);
+    }
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+```
+时间复杂度的备忘
+
+1. 查找：二分法查找就是log(n)，就像二叉树的高度一样 log(n) + 1
+2. 排序：效率高的快排和归并都是nlog(n),效率一般的插入或选择就是n^2
+3. 访问：数组O(1),链表O(n),哈希表O(1)
+
+一般实现字典这种数据结构有两种方式：
+
+1. 哈希表
+2. 二叉搜索树(红黑树)
+
+对于链表，删除和查找，效率都是O(n),所以链表并没有字典使用广泛，字典能把维护数据的复杂度都控制在O(1)~O(logn).
+
 
 ## 树
 
 树相比于链表，再处理大量数据时，插入删除性能，查找性能，都有明显的优势。
 因为将数据整合进有宽度有长度的平面图形中，数据可以依靠数节点的多条边，可以表达更多的逻辑。
+
+### 二叉树的基本性质
+
+1. 在二叉树的第i层上最多有2^(i-1)个节点 
+2. 二叉树中如果深度为k,那么最多有2^(k)-1个节点
+3. 在完全二叉树中，具有n个节点的完全二叉树的深度为(log2n)+1
 
 ### 基本含义和种类
 抽象地说，基本上有序列的地方就可以应用树，因为树结构即是一种序列索引结构
@@ -82,3 +468,26 @@ Hash查找(散列表) 时间复杂度 O(1)         需要开辟大量空间
 现在很多大型高效的数据库（如mysql大多用B+树）都是利用树，因为内存控制更灵活，相比Hash表的搜索，往往适用于小范围可控的数据，因为内存上开辟开辟巨大空间，即使有扩容和重建算法效率也比较一般。
 7，8，9 ，11 都是对自平衡方法的优化。
 
+
+## 哈希表
+
+这是一种查找效率更高的数据结构。键-值(key-indexed) 存储数据的结构，我们只要输入待查找的值即key，即可查找到其对应的值。可以使用一个简单的无序数组来实现：将键作为索引，值即为其对应的值，这样就可以快速访问任意键的值。
+
+使用哈希查找有两个步骤:
+
+1. 使用哈希函数将被查找的键转换为数组的索引。在理想的情况下，不同的键会被转换为不同的索引值，但是在有些情况下我们需要处理多个键被哈希到同一个索引值的情况。所以哈希查找的第二个步骤就是处理冲突
+2. 处理哈希碰撞冲突。有很多处理哈希碰撞冲突的方法，本文后面会介绍拉链法和线性探测法。
+
+数组的索引：
+
+1. 可以用正整数来做KEY。模数组的SIZE。
+2. 可以用字符串KEY。字符串就相当于一个大值的数字。
+
+解决冲突的办法：
+
+1. 链表法，将key相同的元素都用链表链接起来。
+2. 线性探测法，加入100的位置被占领了，将以此向后101，102找位置。
+
++ [浅谈算法和数据结构](http://www.cnblogs.com/yangecnu/p/Introduction-Stack-and-Queue.html)
+
++ [《编程之法：面试和算法心得》](https://www.gitbook.com/book/wizardforcel/the-art-of-programming-by-july/details)
