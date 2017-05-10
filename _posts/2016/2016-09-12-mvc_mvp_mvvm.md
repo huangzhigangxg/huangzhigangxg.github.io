@@ -9,6 +9,8 @@ date: 2016-09-12 15:32:24.000000000 +09:00
 
 ## MVC
 
+![](/assets/images/93c3aeab-92c0-4cc0-8344-969b668fe76b.png)
+
 MVC 时 View 里面有 观察者Observe 关注Model 里的数据变化。 也就是说View看得见Model
 
 - View是把控制权交移给Controller，自己不执行业务逻辑。
@@ -21,32 +23,53 @@ MVC 时 View 里面有 观察者Observe 关注Model 里的数据变化。 也就
 
 ### 缺点:
 
-+ Controller测试困难。因为视图同步操作是由View自己执行，而View只能在有UI的环境下运行。在没有UI环境下对Controller进行单元测试的时候，Controller业务逻辑的正确性是无法验证的View无法组件化。View是强依赖特定的Model的，如果需要把这个View抽出来作为一个另外一个应用程序可复用的组件就困难了。因为不同程序的的Domain Model是不一样的
++ Controller测试困难。因为视图同步操作是由View自己执行，而View只能在有UI的环境下运行。在没有UI环境下对Controller进行单元测试的时候，Controller业务逻辑的正确性是无法验证的View无法组件化。
++ View是强依赖特定的Model的，如果需要把这个View抽出来作为一个另外一个应用程序可复用的组件就困难了。因为不同程序的的Domain Model是不一样的
++ 三个对象 两两存在关系，当改变一个时，都会影响其余的两个，不好维护。
+
+### Apple 理想中的MVC
+
+![](/assets/images/8d779f6a-265b-43c3-90be-dc9997b9963d.png)
+
+
++ 与传统的MVC有哪些好处？
+	+ 苹果考虑到传统MVC中View依赖Model的问题，将更新View的操作也一并放到Controller里，隔离了View和Model。使他们关系不在是 两两存在关系，view只对Controller负责，model只对Controller负责.
 
 
 ## MVP
 
-MVP 时 打破了View原来对于Model的依赖 全都有Presenter来观察Model变化和处理业务逻辑
+![](/assets/images/d8ad72b3-f150-4988-af6f-0db785c40793.png)
+
+MVP 时 打破了View原来对于Model的依赖 全都用Presenter来观察Model变化和处理业务逻辑 , View做的事情很少，`被动的View`。
 
 - View不再负责同步的逻辑，而是由Presenter负责。Presenter中既有业务逻辑也有同步逻辑。
-- View需要提供操作界面的接口给Presenter进行调用。（关键）
+- View需要提供操作界面的接口给Presenter进行调用。（关键）！！！
 
 ### 优点：
 
 - 便于测试。Presenter对View是通过接口进行，在对Presenter进行不依赖UI环境的单元测试的时候。可以通过Mock一个View对象，这个对象只需要实现了View的接口即可。然后依赖注入到Presenter中，单元测试的时候就可以完整的测试Presenter业务逻辑的正确性。这里根据上面的例子给出了Presenter的单元测试样例。
-- View可以进行组件化。在MVP当中，View不依赖Model。这样就可以让View从特定的业务场景中脱离出来，可以说View可以做到对业务逻辑完全无知。它只需要提供一系列接口提供给上层操作。这样就可以做���高度可复用的View组件。
+- View可以进行组件化。在MVP当中，View不依赖Model。这样就可以让View从特定的业务场景中脱离出来，可以说View可以做到对业务逻辑完全无知。它只需要提供一系列接口提供给上层操作。这样就可以做高度可复用的View组件。
 
 ### 缺点：
 
 - Presenter中除了业务逻辑以外，还有大量的View->Model，Model->View的手动同步逻辑，造成Presenter比较笨重，维护起来会比较困难。
 
+### Apple 理想中的MVC和MVP有点像？
+
++ 确实和MVP有点像，都是将View和Model隔离，将更新view的操作放到了Presenter。但是，Presenter里是不含任何布局代码的。Apple‘s MVC中的Controller里却少不了布局代码。
++ Presenter虽然可以更新View，但他只对一个 `View Api Interface` 接口协议负责，通过这个接口 get/set 数据从View上，而且包含 View 的 Event 事件，使Presenter能够接收到事件儿的通知。
++ MVP 经常是 M：V：P = 1：1：1的，而 MVC则是 M：V：C = N ：N ：1 ，也就是 MVP中的 m，v，p都是一一对应的关系，颗粒度很细，容易分离重用，一个Presenter 仅仅是包装了一个Model。而MVC中的Controller是一个管理者，同时管理着多个界面，多个model。
+
 
 ## MVVM
-MVVM  时 VM把展示逻辑从C中拿出来  和业务逻辑从M中 拿出来 合并到一起 。 并且实现View和Model的双向绑定
+
+![](/assets/images/1b8ff549-4fa4-489a-adf3-e8ba52e6bb96.png)
+
+MVVM 时 VM 把展示逻辑从C中拿出来和业务逻辑从M中拿出来合并到一起 。 并且实现View和ViewModel的双向绑定
 
 ### 优点：
 
-- 提高可维护性。解决了MVP大量的手动View和Model同步的问题，提供双向绑定机制。提高了代码的可维护性。
+- 提高可维护性。以前MVP都是要大量的接口类，来手动的同步View和ViewModel，造成代码量很大。而提供双向绑定机制，减少了代码，提高了代码的可维护性。（关键）！！！
 - 简化测试。因为同步逻辑是交由Binder做的，View跟着Model同时变更，所以只需要保证Model的正确性，View就正确。大大减少了对View同步更新的测试。
 
 ### 缺点：
@@ -86,4 +109,6 @@ View Model一般有以下三个部分组成
 + 2、集合：事物的集合，它的类型一般是ObservableCollection，因此，任何UI元素绑定到它，不管这个集合什么时候改变，都可以自动的与UI交互。
 　　
 　　
-+ [MVC—>MVP－>MVVM](http://m.2cto.com/kf/201602/489795.html)
++ [MVC—>MVP－>MVVM](https://github.com/livoras/blog/issues/11)
++ [iOS 架构模式 - 简述 MVC, MVP, MVVM 和 VIPER (译)](https://blog.coding.net/blog/ios-architecture-patterns)
++ [你对MVC、MVP、MVVM 三种组合模式分别有什么样的理解](https://www.zhihu.com/question/20148405)

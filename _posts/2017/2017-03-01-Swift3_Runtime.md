@@ -84,10 +84,61 @@ class MyViewController: UIViewController{
 			+ SwiftStruct `Direct`
 			+ Extension `Direct`
 			+ ProtocolExtension`Direct`
-			
- `Direct` 的直接编译会根据当前类型指针，直接走绑定方法
+来看一例子：
+
+```Swift
+struct Pizza {
+  let ingredients: [String]
+}
+  
+protocol Pizzeria {
+  func makePizza(ingredients: [String]) -> Pizza
+  func makeMargherita() -> Pizza
+}
+  
+extension Pizzeria {
+  func makeMargherita() -> Pizza {
+    return makePizza(["tomato", "mozzarella"])
+  }
+}
+
+struct Lombardis: Pizzeria {
+  func makePizza(ingredients: [String]) -> Pizza {
+    return Pizza(ingredients: ingredients)
+  }
+  func makeMargherita() -> Pizza {
+    return makePizza(["tomato", "basil", "mozzarella"])
+  }
+}
+//1
+let lombardis1: Pizzeria = Lombardis()
+let lombardis2: Lombardis = Lombardis()
+  
+lombardis1.makeMargherita()//["tomato", "basil", "mozzarella"]
+lombardis2.makeMargherita()//["tomato", "basil", "mozzarella"]
+这两个方法都会打印["tomato", "basil", "mozzarella"]，原因是根据上面说的方法的声明位置决定了他的派发方式，makeMargherita()这个方法在protocol Pizzeria有声明，在extension Pizzeria有实现，所以编译器在处理这个函数的派发方式时采用函数表Table的方式，在运行时决定的具体实现哪个函数，而运行时，类型强转已经失去效果（类型强转只给编译器看的），他们还是原来的struct Lombardis结构体，走他自己的Table实现。也就是//["tomato", "basil", "mozzarella"]。
+
+假如Pizzeria协议没有声明makeMargherita()方法，但是扩展中仍然提供了如下的代码的这个方法默认的实现，会发生什么？
+
+protocol Pizzeria {
+  func makePizza(ingredients: [String]) -> Pizza
+}
+  
+extension Pizzeria {
+  func makeMargherita() -> Pizza {
+    return makePizza(["tomato", "mozzarella"])
+  }
+}
+
+lombardis1.makeMargherita()//["tomato", "mozzarella"]
+lombardis2.makeMargherita()//["tomato", "basil", "mozzarella"]
+
+根据上面的图，当方法声明在Protocol的里时，采用Table方式，而这里去掉了protocol Pizzeria里的声明，仅有extension Pizzeria，同样根据上图，看出Pizzeria这个方法makeMargherita是直接静态编译，所以编译器在处理这个函数的派发方式时采用静态编译的方式 也就是说，把Pizzeria的makeMargherita()方法直接绑定到被强转的lombardis1上。所以才会打印["tomato", "mozzarella"]
+```
+		
+ `Direct` 的直接编译会根据当前类型指针，在编译器直接绑定方法
  
- `Table` 怎会产生 Extension 覆盖原生class或者struct接口的覆盖
+ `Table` 则会产生 Extension 覆盖原生class或者struct接口的覆盖
 
 ## Swift 性能优化
 ### 性能的因素因素
@@ -122,17 +173,17 @@ struct Attachment {	let fileURL: URL	let uuid: UUID //比String更简单的类
 
 ### 使用(范型+协议)实现静态多态，代替(协议/继承)实现的动态多态
 
-![](assets/images/WX20170321-185410@2x.png)
+![](/assets/images/WX20170321-185410@2x.png)
 
 上面是靠继承实现的动态多态，每一个对象的内存中有一个指针指向静态内存区的typeInfo表。在运行时通过每一个对象的typeInfo虚函数表找到方法的实现
 
-![](assets/images/WX20170321-190302@2x.png)
+![](/assets/images/WX20170321-190302@2x.png)
 
-![](assets/images/WX20170321-191131@2x.png)
+![](/assets/images/WX20170321-191131@2x.png)
 
 上面是靠协议实现的动态多态，每一个实现类Drawable协议的对象，都会被一个叫做`即有容器 Existential Container`的盒子封装起来，这个容器占有5个word，前3个word是value buffer，可以放下小于3个word的结构体，如果大于3个word，就会放在堆中，用第一word存放堆里的地址，第4个word存放一个 `方法列表指针 Value Witness Table(VWT)` 里面是用于在堆上管理结构体的生命周期的方法 `allocate:copy:destruct:deallocate:`. 第五个word也存放一个方法列表 `Protocol Witness Table`,里面是对象实现目标协议的具体实现函数。运行时通过查找 `即有容器 Existential Container` 的 `Protocol Witness Table` 完成函数的调用。
 
-![](assets/images/WX20170321-191547@2x.png)
+![](/assets/images/WX20170321-191547@2x.png)
 
 上面的代码表述了编译器是如何通过协议参数构建`即有容器 Existential Container`并调用正确方法的。
 
@@ -144,9 +195,9 @@ struct Attachment {	let fileURL: URL	let uuid: UUID //比String更简单的类
 
 上面都是动态的多态实现方法。下面看看 效率更高的 范型+协议实现的静态多态。
 
-![](assets/images/WX20170321-214652@2x.png)
+![](/assets/images/WX20170321-214652@2x.png)
 
-![](assets/images/WX20170321-215353@2x.png)
+![](/assets/images/WX20170321-215353@2x.png)
 
 编译器通过PWT和VWT足够的信息，通过一份代码，转换成多个类型的版本，供调用者静态调用。
 由于是静态编译，上面的代码还会被优化。
@@ -164,7 +215,7 @@ Point().draw()Line().draw()
 
 当自定义的Struct的容量很大时拷贝成本很高，采用Copy On Write方式提高struct的读写性能。在内置类型String,Array,Set,Dictionary均使用了这个技术。
 
-![](assets/images/WX20170321-220708@2x.png)
+![](/assets/images/WX20170321-220708@2x.png)
 
 1. 用一个LineStorage引用类型在堆上做真正的存贮容器。
 2. 当 Struct Line值类型 发生拷贝时`值语意拷贝 let lina2 = line1`，仅仅是LineStorage引用类型容器引用计数+1。

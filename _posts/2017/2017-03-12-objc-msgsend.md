@@ -1,12 +1,13 @@
 ---
 layout: post
 
-title: objc_msgSend 解读
+title: Objective-C的方法和消息转发
 
 date: 2016-11-17 15:32:24.000000000 +09:00
 
 ---
 
+## objc_msgSend 解读
 在Objective-C 中，所有的消息传递中的“消息“都会被转换成一个 selector 作为 objc_msgSend 函数的参数：
 
 >[object hello] -> objc_msgSend(object, @selector(hello))
@@ -133,3 +134,106 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
 + [objc_msgSend消息传递学习笔记 – 对象方法消息传递流程](http://www.cnblogs.com/fengmin/p/5820453.html)
 + [从源代码看 ObjC 中消息的发送](http://draveness.me/message/)
 
+
+## 消息转发
+
+_objc_msgForward 是一个C语言的全局函数，当NSObject 接收到 未知的消息时就会返回这个_objc_msgForward的函数，并传入 id，sel，args调用。调用结果就是 实现消息的转发，_objc_msgForward里面会依次对id发送这些消息。
+
+1.  `resolveInstanceMethod: ／ resolveClassMethod:` 这里可以有机会用class_addMethod 方法马上给自己添加一个方法实现
+
+```Objective-C
++ (BOOL) resolveInstanceMethod:(SEL)aSEL
+{
+    if (aSEL == @selector(resolveThisMethodDynamically))
+    {
+          class_addMethod([self class], aSEL, (IMP) dynamicMethodIMP, "v@:");
+          return YES;
+    }
+    return [super resolveInstanceMethod:aSel];
+}
+//注意事项：
+//根据Demo实验，这个函数返回的BOOL值系统实现的objc_msgSend函数并没有参考，无论返回什么系统都会尝试再次用SEL找IML，如果找到函数实现则执行函数。如果找不到继续其他查找流程。
+```
+
+2.   `forwardingTargetForSelector:` 尝试找到一个能响应该消息的对象，return otherObj  or 也可以直接返回 nil 就会调用  `doesNotRecognizeSelector` ,这里可以用于在对象和代理插入中间者，实现代理方法的捕获。
+
+```Objective-C
+//将消息转出某对象
+- (id)forwardingTargetForSelector:(SEL)aSelector
+{
+    NSLog(@"MyTestObject _cmd: %@", NSStringFromSelector(_cmd));
+
+    NoneClass *none = [[NoneClass alloc] init];
+    if ([none respondsToSelector: aSelector]) {
+        return none;
+    }
+    
+    return [super forwardingTargetForSelector: aSelector];
+}
+```
+
+3.  `methodSignatureForSelector:` 自己不能实现 又找不到别的对象，那么就用NSInvocation打包这个消息的所有信息传给 `forwardInvocation:` 做最后的消息转发 , 这个 `methodSignatureForSelector:`方法可以自己签名这个sel，也可以从别的类获取这个签名。最后也可以直接返回 nil 就会调用  `doesNotRecognizeSelector`
+
+```Objective-C
+//NSMethodSignature 方法签名：描述了sel的返回值和参数。
+//自己来构造这个sel的签名
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    NSString *sel = NSStringFromSelector(selector);
+    if ([sel rangeOfString:@"set"].location == 0) {
+        //动态造一个 setter函数
+        return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+    } else {
+        //动态造一个 getter函数
+        return [NSMethodSignature signatureWithObjCTypes:"@@:"];
+    }
+}
+//从其他类获取这个sel的签名
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+     NSMethodSignature *signature = [super methodSignatureForSelector:selector];
+     if (!signature) {
+         signature = [target methodSignatureForSelector:selector];
+     }
+     return signature;
+}  
+
+```
+
+
+
+4.  `forwardInvocation:`  这里得到已经签名好的invocation。此时invocation这里面的Target是self，可以调用 invokeWithTarget 发送给别的target。
+
+```Objective-C
+
+//发送给别的target。比如中间类，
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+      for (id target in self.allDelegates) {
+           if ([target respondsToSelector:anInvocation.selector]) {
+                [anInvocation invokeWithTarget:target];
+           }
+      }
+}
+```
+
+
+
+5.  `doesNotRecognizeSelector:`
+
+
+使用场景
+在一个函数找不到时，Objective-C提供了三种方式去补救：
+
+1、调用resolveInstanceMethod给个机会让类添加这个实现这个函数
+
+2、调用forwardingTargetForSelector让别的对象去执行这个函数
+
+3、调用methodSignatureForSelector（函数符号制造器）和forwardInvocation（函数执行器）灵活的将目标函数以其他形式执行。
+
+如果都不中，调用doesNotRecognizeSelector抛出异常。
+
+
+
+
+[函数调用](http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html)
