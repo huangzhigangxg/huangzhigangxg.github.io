@@ -20,7 +20,8 @@ menu: Bookmark
 - [RxSwift](http://blog.dianqk.org/archives/) - 响应式Swift编程
 - [Swift 学习指引](http://www.swiftguide.cn) - Swift 学习指引
 - [IT Monkey Life](http://itmonkeylife.github.io/Blog/blog/archives/) - 牛人博客
-
+- [iOS Security](http://security.ios-wiki.com) - iOS 逆向
+- [极客学院 iOS 安全](http://wiki.jikexueyuan.com/project/ios-security-defense/) - iOS 逆向
 ## Symfony
 - [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle) - Generate a decent documentation for your APIs
 - [FOSRestBundle](http://symfony.com/doc/current/bundles/FOSRestBundle/index.html) - Creat a REST API with Symfony2

@@ -9,8 +9,8 @@ date: 2017-03-14 15:34:24.000000000 +09:00
 
 
 ##  Analyze
-+ 静态分析，
-+ 可以检查可疑的内存泄露
++ 静态分析
++ 检查可疑的内存泄露
 + 逻辑错误
 
 ## Timer Profiler
@@ -88,6 +88,38 @@ date: 2017-03-14 15:34:24.000000000 +09:00
 	+ imageNamed方法获取的图片会缓存在内存中，适合滑动cell里的图片频繁多次使用。
 	+ imageWithContentsOfFile 没有缓存，用完直接释放，适合使用次数少的图。
 
+
+### 分析CPU还是GPU哪一是性能瓶颈
+使用 OpenGL ES Driver instrument 查看，点击上面那个小的 i 按钮，配置一下，同时注意勾选 Device Utilization %。现在，当你运行你的 app 时，你可以看到你 GPU 的负荷。如果这个值靠近 100%，那么你就需要把你工作的重心放在GPU方面了。
+
+
+### 其他优化
++ 图片压缩的越小，CPU传给GPU的速度越快 占用VRAM越小
++ 并发绘图：在实现-drawRect:方法时，假如要绘制大量的东西，就会占用主线程很多时间。因为CGContext是必须要在主线程操作的。假如我们想在其他线程完成绘制工作就只能是向一个完全断开链接的位图上下文中进行绘制。比如可以像如下那样，异步绘制好UIImage，之后再传递给UIImageView的image。
+
+```
+- (UIImage *)renderInImageOfSize:(CGSize)size
+{
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+
+    // do drawing here
+
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return result;
+}
+------------->使用
+UIImageView *view; // assume we have this
+NSOperationQueue *renderQueue; // assume we have this
+CGSize size = view.bounds.size;
+[renderQueue addOperationWithBlock:^(){
+        UIImage *image = [renderer renderInImageOfSize:size];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^(){
+            view.image = image;
+        }];
+}];
+```
++ [绘制像素到屏幕上](https://objccn.io/issue-3-1/)
 + [UIKit性能调优实战讲解](http://www.jianshu.com/p/619cf14640f3)
 + [iOS核心动画高级技巧](https://zsisme.gitbooks.io/ios-/content/chapter12/instruments.html)
 

@@ -8,8 +8,11 @@ date: 2017-03-2 15:34:24.000000000 +09:00
 ---
 
 ## @objc 和 dynamic 
-这两个关键字都可以用来修饰 Swift 的 class 和 func ，使它们像OC一样有动态化的能力，又享受了函数表派发的高性能。
+这两个关键字都可以用来修饰 Swift 的 class 和 class的func ，使它们像OC一样有动态化的能力，又享受了函数表派发的高性能。
 
++ Swift中继承自NSObject的Swift对象，默认都是带有@Objc的标签，继承自NSObject的方法也都是带有@Objc的标签。那么还有什么需要主动写@Objc呢？
+	 + protocol协议：如果协议中有optional修饰的方法，就必须使用@objc来修饰
+	 + enum枚举：但是必须使用整型作为原始值，不然无法和oc兼容
 + 纯Swift类没有动态性，但在方法、属性前添加dynamic修饰可以获得动态性。
 + 值得注意的是 ：加了@objc标识的方法、属性无法保证都会被运行时调用，因为Swift会做静态优化。要想完全被动态调用，必须使用dynamic修饰。使用dynamic修饰将会隐式的加上@objc标识。
 

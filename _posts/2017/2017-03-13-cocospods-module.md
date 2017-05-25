@@ -22,28 +22,7 @@ date: 2017-03-21 15:34:24.000000000 +09:00
 
 ![](/assets/images/WX20170322-153706@2x.png)
 
-### Framework开发需要注意的地方
 
-1. Framework开发要做好接口的权限管理.
-	+ publie 修饰的class 和 func能被模块外调用 
-	+ open 修饰的class不仅能能调用还能继承。
-2. Framework开发获取的资源的方式有所不同。
-	+ 用类确定哪个框架，从而锁定哪个框架的`Bundle`。
-	+ 因为是多个模块一起开发，每个`Framework`通常想要获取自己的`Bundle` 资源时，需要通过 `Bundle(for: SomeClassIn Framework.self)` 将`Framework`框架中的一个`class`传进去，，才能获取这个`class`所在的Bundle。
-
-```Swift
-//----->在子工程中使用自己的图片
-        let bundle = Bundle(for: LoginView.self)
-        let image = UIImage(named: "WechatIMG1", in: bundle, compatibleWith: nil )        
-        self.view.backgroundColor = UIColor(patternImage:image!)
-        
-//----->在主工程中获取子工程的storyboard
-        let storyBoard = UIStoryboard(name: "Storyboard", bundle: loginBundle)
-        let vc = storyBoard.instantiateInitialViewController()!
-        self.navigationController?.pushViewController(vc, animated: true)
- 
-```
-+ [framework中关于资源的读取](http://www.jianshu.com/p/3549984315bf)
 
 ## 2.利用CocosPod在本地维护这些子模块
 > 现在本地尝试用CocosPod管理`Framework`，确定无误再传到自己的Github，让团队里其他的小伙伴可以线上获取`Framework`。
@@ -158,3 +137,5 @@ end
 + [教你如何从0到1实现组件化架构](http://www.jianshu.com/p/7b4667cde80b)
 + [iOS App组件化开发实践](http://www.yiqixiabigao.com/yin-ke-kong-gu-iosman-man-zu-jian-hua-kai-fa-zhi-lu/)
 + [iOS CocoaPods组件平滑二进制化解决方案](http://www.yiqixiabigao.com/ios-cocoapodszu-jian-ping-hua-er-jin-zhi-hua-fang-an-ji-xiang-xi-jiao-cheng/)
++ [蘑菇街组件化](http://ios.jobbole.com/89259/)
++ [美团组件化的二进制方案](http://www.cocoachina.com/ios/20170427/19136.html)

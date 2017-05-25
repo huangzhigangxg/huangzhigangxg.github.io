@@ -7,7 +7,7 @@ date: 2017-03-16 15:32:24.000000000 +09:00
 
 ---
 
-# 想了解Category如何在运行时为OC的类添加方法的,根据Category实现原理，进一步确定Category的方法为什么会覆盖Class自身类的实现？
+## 想了解Category如何在运行时为OC的类添加方法的,根据Category实现原理，进一步确定Category的方法为什么会覆盖Class自身类的实现？
 > TODO:Swift的 class Extension，protocol Extension 又是如何给类添加方法的，当方法发生覆盖时，怎么确定哪一个方法被调用？函数的派发方式？
 
 ```
@@ -33,7 +33,7 @@ date: 2017-03-16 15:32:24.000000000 +09:00
 
 ```
 
-# 经过 `clang -rewrite-objc MyClass.m` 命令看看Category底层结构体具体实现。
+## 经过 `clang -rewrite-objc MyClass.m` 命令看看Category底层结构体具体实现。
 
 > 通过 clang -rewrite-objc 命令，仅将扩展语法通过可读性更高的 C 语法进行改写，而不是编译期中的子编译过程
 
@@ -247,10 +247,10 @@ static struct _category_t `L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, sect
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 
 ```
-# 上面的MyClass类和它的Category经过Clang编译器。翻译成了C的各种结构体与函数，将它们拼接起来在内存中，表达完整的OC类内存模型。
-# 之后看看这些生成的category结构体 如何通过运行时代码实现扩展类功能的办法。
+## 上面的MyClass类和它的Category经过Clang编译器。翻译成了C的各种结构体与函数，将它们拼接起来在内存中，表达完整的OC类内存模型。
+## 之后看看这些生成的category结构体 如何通过运行时代码实现扩展类功能的办法。
 
-# 下面是运行时代码入口，Category会一步步将自己的方法插入Class的class_rw_t的methods里面。重复的key就会覆盖。
+## 下面是运行时代码入口，Category会一步步将自己的方法插入Class的class_rw_t的methods里面。重复的key就会覆盖。
 
 ```
 void _objc_init(void)
@@ -258,7 +258,7 @@ void _objc_init(void)
     └──const char `map_images_nolock(...)
         └──void _read_images(header_info ``hList, uint32_t hCount)
 ```
-# 下面是添加category给class片段 
+## 下面是添加category给class片段 
 
 ```
 if (cat->classMethods  ||  cat->protocols  
@@ -269,8 +269,8 @@ if (cat->classMethods  ||  cat->protocols
     }
 }
 ```
-# `addUnattachedCategoryForClass` 函数语意上就是添加还没有被添加的Category给Class。
-# `remethodizeClass(cls->ISA());` 重新调整class的methods结构体。
+## `addUnattachedCategoryForClass` 函数语意上就是添加还没有被添加的Category给Class。
+## `remethodizeClass(cls->ISA());` 重新调整class的methods结构体。
 
 
 ```
@@ -305,7 +305,7 @@ static void remethodizeClass(Class cls)
 }
 
 ```
-# `attachCategories`里就会将方法列表重新写到cls->data()-> methods里面。
+## `attachCategories`里就会将方法列表重新写到cls->data()-> methods里面。
 
 ```
 static void 

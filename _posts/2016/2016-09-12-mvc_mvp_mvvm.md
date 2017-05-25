@@ -57,7 +57,7 @@ MVP 时 打破了View原来对于Model的依赖 全都用Presenter来观察Model
 ### Apple 理想中的MVC和MVP有点像？
 
 + 确实和MVP有点像，都是将View和Model隔离，将更新view的操作放到了Presenter。但是，Presenter里是不含任何布局代码的。Apple‘s MVC中的Controller里却少不了布局代码。
-+ Presenter虽然可以更新View，但他只对一个 `View Api Interface` 接口协议负责，通过这个接口 get/set 数据从View上，而且包含 View 的 Event 事件，使Presenter能够接收到事件儿的通知。
++ Presenter虽然可以更新View，但他只对一个 `View Api Interface` 接口协议负责，通过这个接口 get/set 数据从View上，由于View是拥有Presenter的，Presenter要写好 View 的 Event 事件处理方法，使View直接对Presenter发送Event。
 + MVP 经常是 M：V：P = 1：1：1的，而 MVC则是 M：V：C = N ：N ：1 ，也就是 MVP中的 m，v，p都是一一对应的关系，颗粒度很细，容易分离重用，一个Presenter 仅仅是包装了一个Model。而MVC中的Controller是一个管理者，同时管理着多个界面，多个model。
 
 
