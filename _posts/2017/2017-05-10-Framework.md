@@ -81,7 +81,7 @@ date: 2017-05-10 15:34:24.000000000 +09:00
 + 方法名应该是动词或者动词短语开头
 + 属性名应该是名词 
 
-### Swift可以通过 module 来提供命名空间？
+### Swift可以通过 module 来提供命名空间
 
 ```
 MyClass.hello()
@@ -95,7 +95,7 @@ MyFramework.MyClass.hello()
 ### 注意系统api版本的判断
 
 ### 删除Framework中无用的mach-O文件来瘦身
-+ 拆分Framework里面的mach-O，将无用的删除，`但是怎么拆分呢？`
++ 拆分Framework里面的mach-O，将无用的删除。
 + [iOS瘦身之删除无用的mach-O文件](http://mp.weixin.qq.com/s?__biz=MzA4MjA0MTc4NQ==&mid=504089563&idx=1&sn=9328409758177cb6df3edbb3b8a0c161#rd)
 
 
