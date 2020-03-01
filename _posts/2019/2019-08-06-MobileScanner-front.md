@@ -13,13 +13,13 @@ date: 2019-08-06 15:34:24.000000000 +09:00
 
 最开始 Web1.0阶段使用命令行看网页的，到后来有了窗口，广泛用于论文的查看，页面也是静态的，不能交互只是简单跳转，所以以前的前端工程师，就是模板工程师。直到后来Ajax的出现，才开始进入Web2.0. 页面可交互，数据读写。 
 
-AJAX 是指 Asynchronous JavaScript and XML (异步的JavaScript和XML技术)，它之所以在这个时候出现是因为微软发布IE浏览器5.0版，才有了允许JavaScript脚本向服务器发起HTTP请求的能力。也是要依靠浏览器对它开放出能力才行。
+Ajax 是指 Asynchronous JavaScript and XML (异步的JavaScript和XML技术)，它之所以在这个时候出现是因为微软发布IE浏览器5.0版，才有了允许JavaScript脚本向服务器发起HTTP请求的能力。也是要依靠浏览器对它开放出能力才行。
 
-Andriod开发还有机会接触系统内核。但作为iOS开发，我们处于苹果系统之上的应用层，只能用苹果提供的 Cocoa Touch，包含Foundation和UIKit框架等来开发iPhone应用。更可怜的是前端开发，只是浏览器应用的一个页面而已。同样所拥有的能力仅限于浏览器应用内核给他开放出来的功能。
+Andriod开发还有机会接触系统内核。但作为iOS开发，我们处于苹果系统之上的应用层，只能用苹果提供的 Cocoa Touch，包含Foundation和UIKit框架等来开发iPhone应用。更可怜的是前端开发，只是浏览器应用的一个Tab页面而已。同样所拥有的能力仅限于浏览器应用内核给它开放出来的功能。
 
 现在大部分网站都是 SPA单页面应用，就是整体页面不刷新，只要改变局部改变内容，实现的原理就是用JS中的window.onhashchange监听到了 fragment 的变化，从而通过JS改变document(Html)的内容，改变界面。document发生变化，浏览器就会重新刷新(局部)
 
-SSR服务器端渲染, 是指有服务器渲染好Html，直接交给浏览器展示就好了，而不是通过传统的AJAX 在浏览器端去请求数据，再更新自己的document(Html)。 更新下面是传统AJAX和SSR服务器渲染页面的对比。
+SSR服务器端渲染, 是指有服务器渲染好Html，直接交给浏览器展示就好了，而不是通过传统的AJAX 在浏览器端去请求数据，再更新自己的document(Html)。 更新下面是传统Ajax和SSR服务器渲染页面的对比。
 
 ### 使用Ajax操作数据渲染到页面
 
@@ -100,8 +100,7 @@ server.listen(8080)
 
 ## 主流框架 - Vue 
 
-当前有了请求数据的能力后，也就有了分离数据和UI的需求，就会有MVC到MVVM的演进。Vue 框架该登场了。
-
+当前有了请求数据的能力后，也就有了分离数据和UI的需求，就会有MVC到MVVM的演进。Vue 框架该登场了。 有点类似于 Rx 里的 RxCocoa 和 RxSwift，能讲 View 和 ViewModel 之间双向绑定。
 
 ### 双向绑定-页面数据发生变化如何通知到JS ？
 通过给页面元素添加 onchange 或者 oninput 事件，在事件中获取表单的值，然后赋值给Js对应的对象上即可。 
@@ -138,6 +137,8 @@ Object.defineProperty(data,'name',{
 
 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md) 是一个后台前端解决方案，它基于 vue 和 element-ui实现。如图所示他基本满足场景的需要，所以直接在上面修改成自己的业务再好不过了。业务数据获取也比较容易，剩下的塞数据就可以了。只是单点登录这里花了点时间。
  
+### 单点登录
+
 首选前端检测自己当前是否有username和ticket，他俩都是在单点登录后，登录服务器直接回调给后台并设置到cookies里的。如果他俩无效，说明登录过去或者未登录，直接去发起登录请求 ‘/sso/login’, 后台收到登录请求后直接返回203，前台可以通过http拦截器监听203这个错误，如果监听到直接跳转到单点登录服务网站去登录，企业的同学登录成功后，登录后台就会给咱们的后台发送有效的Code，拿着code，再去换一次ticket和name，成功后设置到cookies里。
 
 ```

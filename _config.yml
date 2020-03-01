@@ -83,7 +83,7 @@ analytics :
 # For about.html. Fell free to create your own!
 skill_software_keywords: [Java, C, C++, Qt, Python, MySQL, Oracle, SQLite, PL/SQL, Design Patterns]
 skill_j2ee_keywords: [Spring, Struct, Hibernet, MyBatis, JSP]
-skill_web_keywords: [HTML, CSS, JS, JQuery, Ajax, AngularJS, NodeJS, ExpressJS, MongoDB, Redis, PHP, Symfony, Boostrap]
+skill_web_keywords: [HTML, CSS, JS, NodeJS, ExpressJS, MongoDB]
 skill_mobile_app_keywords: [Android, Sketch UI Desgin]
 skill_iOS_keywords: [Objective-C, C, Swift, RxSwift ,JSPatch]
 skill_back_keywords: [Golang, Docker, Jenkins]

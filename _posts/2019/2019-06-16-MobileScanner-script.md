@@ -34,7 +34,7 @@ date: 2019-06-16 15:34:24.000000000 +09:00
 
 ![1](/assets/mobilescanner/someone.png)
 
-选用的是出自Facebook的 [Infer](https://fbinfer.com) 扫描工具、
+#### 选用的是出自Facebook的 [Infer](https://fbinfer.com) 扫描工具、
 
 #### 通过 xcodebuild 生成 xcodebuild.log 并用 xcpretty -r json-compilation-database 生成 compilation_db.json 文件用与infer接下来的分析, 它在build/reports目录下。
 
