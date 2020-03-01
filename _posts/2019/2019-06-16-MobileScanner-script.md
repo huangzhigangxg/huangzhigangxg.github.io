@@ -28,46 +28,45 @@ date: 2019-06-16 15:34:24.000000000 +09:00
 
 
 
-## 项目应用
+## 扫描功能
 
 ### 静态分析
 
 ![1](/assets/mobilescanner/someone.png)
 
+选用的是出自Facebook的 [Infer](https://fbinfer.com) 扫描工具、
 
-1. 通过 xcodebuild 生成 xcodebuild.log 并用 xcpretty -r json-compilation-database 生成 compilation_db.json 文件用与infer接下来的分析, 它在build/reports目录下。
+#### 通过 xcodebuild 生成 xcodebuild.log 并用 xcpretty -r json-compilation-database 生成 compilation_db.json 文件用与infer接下来的分析, 它在build/reports目录下。
 
 ```
 xcodebuild archive -archivePath ${myarchivePath} -workspace ${myworkspace}.xcworkspace -scheme ${myscheme} -UseModernBuildSystem=NO -configuration Release | tee xcodebuild.log  | xcpretty _0.2.8_ -r json-compilation-database
 ```
 
-2. infer 解析 json-compilation-database 并设置扫描范围
+#### infer 解析 json-compilation-database 并设置扫描范围
 
 ```
-infer --compilation-database build/reports/compilation_db.json --keep-going --skip-analysis-in-path-skips-compilation --skip-analysis-in-path "Pods/."
+infer 
+--compilation-database build/reports/compilation_db.json 
+--keep-going 								
+--skip-analysis-in-path-skips-compilation //开启跳过
+--skip-analysis-in-path "Pods/."		      //具体跳过哪些Pods
+```
 
-
---skip-analysis-in-path-skips-compilation 开启跳过
---skip-analysis-in-path 要跳过哪些pod
- 
+#### 将Bug分部到人,依赖以onetool开发模式，也就是clone远程git仓库的源码。有了git的信息，就能通过git blame命令拿到最后一个更新的人的作者，在python有git的增强，直接用Repo(repo_path)初始化后，就能拿到足够的信息
 
 ```
-3. 将Bug分部到人,依赖以onetool开发模式，也就是clone远程git仓库的源码。有了git的信息，就能通过git blame命令拿到最后一个更新的人的作者，在python有git的增强，直接用Repo(repo_path)初始化后，就能拿到足够的信息
-
-```
-	def editorFrom(self,project_path,file_path,line_num):
-		paths = file_path.strip('/').split('/')
-		paths.reverse()
-		repo_path = project_path + '/' + paths.pop()
-		repo = Repo(repo_path)
-		file_absolute_path = project_path + '/' + file_path
-		cur = 0
-		for commit, lines in repo.blame('HEAD', file_absolute_path):
-			if cur <= line_num <= (cur + len(lines)):
-				return commit.author.name
-			cur += len(lines)
-		return ''
-
+def editorFrom(self,project_path,file_path,line_num):
+	paths = file_path.strip('/').split('/')
+	paths.reverse()
+	repo_path = project_path + '/' + paths.pop()
+	repo = Repo(repo_path)
+	file_absolute_path = project_path + '/' + file_path
+	cur = 0
+	for commit, lines in repo.blame('HEAD', file_absolute_path):
+		if cur <= line_num <= (cur + len(lines)):
+			return commit.author.name
+		cur += len(lines)
+	return ''
 ```
 
 [Infer Manuals](https://fbinfer.com/docs/man-pages.html)

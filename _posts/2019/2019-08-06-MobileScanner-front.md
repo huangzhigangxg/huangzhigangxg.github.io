@@ -3,7 +3,7 @@ layout: post
 
 title: MoblieScanner 一站式扫描平台[前端]
 
-date: 2019-07-24 15:34:24.000000000 +09:00
+date: 2019-08-06 15:34:24.000000000 +09:00
 
 ---
 
@@ -21,7 +21,7 @@ Andriod开发还有机会接触系统内核。但作为iOS开发，我们处于�
 
 SSR服务器端渲染, 是指有服务器渲染好Html，直接交给浏览器展示就好了，而不是通过传统的AJAX 在浏览器端去请求数据，再更新自己的document(Html)。 更新下面是传统AJAX和SSR服务器渲染页面的对比。
 
-使用Ajax操作数据渲染到页面
+### 使用Ajax操作数据渲染到页面
 
 1. 用户地址栏输入URL
 2. 浏览器使用HTTP协议从后台获取资源
@@ -54,7 +54,7 @@ SSR服务器端渲染, 是指有服务器渲染好Html，直接交给浏览器�
 </html>
 ```
 
-使用SSR技术显示页面
+### 使用SSR技术显示页面
 
 1. 用户地址栏输入URL
 2. 浏览器使用HTTP协议从后台获取资源
@@ -98,13 +98,12 @@ server.listen(8080)
 [大前端的技术原理和变迁史](https://juejin.im/post/5b5adc9b6fb9a04f9244555d)
 [图解浏览器的基本工作原理](https://zhuanlan.zhihu.com/p/47407398)
 
-## Vue 框架
+## 主流框架 - Vue 
 
 当前有了请求数据的能力后，也就有了分离数据和UI的需求，就会有MVC到MVVM的演进。Vue 框架该登场了。
 
-### Vue框架如何实现双向绑定的呢？
 
-##### 页面数据发生变化如何通知到JS ？
+### 双向绑定-页面数据发生变化如何通知到JS ？
 通过给页面元素添加 onchange 或者 oninput 事件，在事件中获取表单的值，然后赋值给Js对应的对象上即可。 
 onchange 源于HTML 4 的新特性之一是可以使 HTML 事件触发浏览器中的行为，比方说当用户点击某个 HTML 元素时启动一段 JavaScript。
 oninput 是HTML DOM 事件，允许Javascript在HTML文档元素中注册不同事件处理程序。
@@ -122,8 +121,7 @@ function evtInput(){
 }
 ```
 
-##### JS数据变化如何通知到页面？
-
+### 双向绑定-JS数据变化如何通知到页面？
 JavaScript原生有个方法 Object.defineProperty() ，这个方法可以重新设置一个js对象中某个元素的一些属性，也就是重写了Set与Get方法，达到监听的目的
 
 ```
@@ -134,7 +132,9 @@ Object.defineProperty(data,'name',{
 });
 ```
 
-## 选择 vue-element-admin 模板 
+## 选择模板   
+
+![1](/assets/mobilescanner/moban.png)
 
 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md) 是一个后台前端解决方案，它基于 vue 和 element-ui实现。如图所示他基本满足场景的需要，所以直接在上面修改成自己的业务再好不过了。业务数据获取也比较容易，剩下的塞数据就可以了。只是单点登录这里花了点时间。
  
@@ -197,10 +197,9 @@ function login () {
       console.log(error);
   })
 }
-
 ```
 
-[模板效果](https://panjiachen.github.io/vue-element-admin/#/dashboard)
+## 参考
 
 [模板使用文档](https://panjiachen.github.io/vue-admin-template-site/)
 
@@ -210,4 +209,4 @@ function login () {
 
 [Vue Router](http://www.shouce.ren/api/view/a/11755)
 
-[Vue Router](https://segmentfault.com/a/1190000009651628)
+[Vue2.0 探索之路——vue-router入门教程和总结](https://segmentfault.com/a/1190000009651628)
