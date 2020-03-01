@@ -9,7 +9,7 @@ date: 2019-06-16 15:34:24.000000000 +09:00
 
 ![1](/assets/mobilescanner/mobilescanner_jenkins.png)
 
-# 脚本语言基本实现原理
+## 脚本语言基本实现原理
 ### 语言层面 JS python oc shell 对比
 ### 它们都怎么产生的
 ### 他们运行时什么原理？
@@ -28,7 +28,7 @@ date: 2019-06-16 15:34:24.000000000 +09:00
 
 
 
-# 项目应用
+## 项目应用
 
 ### 静态分析
 
@@ -44,7 +44,7 @@ xcodebuild archive -archivePath ${myarchivePath} -workspace ${myworkspace}.xcwor
 2. infer 解析 json-compilation-database 并设置扫描范围
 
 ```
-infer --compilation-database build/reports/compilation_db.json --keep-going --skip-analysis-in-path-skips-compilation 
+infer --compilation-database build/reports/compilation_db.json --keep-going --skip-analysis-in-path-skips-compilation --skip-analysis-in-path "Pods/."
 
 
 --skip-analysis-in-path-skips-compilation 开启跳过

@@ -9,7 +9,7 @@ date: 2019-07-24 15:34:24.000000000 +09:00
 
 ![1](/assets/mobilescanner/mobilescanner_web.png)
 
-# 前端历史演进
+## 前端历史演进
 
 最开始 Web1.0阶段使用命令行看网页的，到后来有了窗口，广泛用于论文的查看，页面也是静态的，不能交互只是简单跳转，所以以前的前端工程师，就是模板工程师。直到后来Ajax的出现，才开始进入Web2.0. 页面可交互，数据读写。 
 
@@ -98,13 +98,13 @@ server.listen(8080)
 [大前端的技术原理和变迁史](https://juejin.im/post/5b5adc9b6fb9a04f9244555d)
 [图解浏览器的基本工作原理](https://zhuanlan.zhihu.com/p/47407398)
 
-# Vue 框架
+## Vue 框架
 
 当前有了请求数据的能力后，也就有了分离数据和UI的需求，就会有MVC到MVVM的演进。Vue 框架该登场了。
 
-## Vue框架如何实现双向绑定的呢？
+### Vue框架如何实现双向绑定的呢？
 
-#### 页面数据发生变化如何通知到JS ？
+##### 页面数据发生变化如何通知到JS ？
 通过给页面元素添加 onchange 或者 oninput 事件，在事件中获取表单的值，然后赋值给Js对应的对象上即可。 
 onchange 源于HTML 4 的新特性之一是可以使 HTML 事件触发浏览器中的行为，比方说当用户点击某个 HTML 元素时启动一段 JavaScript。
 oninput 是HTML DOM 事件，允许Javascript在HTML文档元素中注册不同事件处理程序。
@@ -122,7 +122,7 @@ function evtInput(){
 }
 ```
 
-#### JS数据变化如何通知到页面？
+##### JS数据变化如何通知到页面？
 
 JavaScript原生有个方法 Object.defineProperty() ，这个方法可以重新设置一个js对象中某个元素的一些属性，也就是重写了Set与Get方法，达到监听的目的
 
@@ -134,7 +134,7 @@ Object.defineProperty(data,'name',{
 });
 ```
 
-# 选择 vue-element-admin 模板 
+## 选择 vue-element-admin 模板 
 
 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md) 是一个后台前端解决方案，它基于 vue 和 element-ui实现。如图所示他基本满足场景的需要，所以直接在上面修改成自己的业务再好不过了。业务数据获取也比较容易，剩下的塞数据就可以了。只是单点登录这里花了点时间。
  
