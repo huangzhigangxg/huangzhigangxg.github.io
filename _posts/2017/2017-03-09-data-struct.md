@@ -14,51 +14,41 @@ date: 2017-03-09 15:32:24.000000000 +09:00
 ## 数组
 数组经常用来做数据的排序。先看看关于数组的几种常见的排序算法，以及他们的优缺点。
 
+[稳定性:假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些记录的相对次序保持不变，即在原序列中，r[i]=r[j]，且r[i]在r[j]之前，而在排序后的序列中，r[i]仍在r[j]之前，则称这种排序算法是稳定的；否则称为不稳定的。](https://baike.baidu.com/item/排序算法稳定性)
+
 [若算法的T(n) = O(log n)，则称其具有对数时间。由于计算机使用二进制的记数系统，对数常常以2为底（即log2 n，有时写作lg n）。然而，由对数的换底公式，loga n和logb n只有一个常数因子不同，这个因子在大O记法中被丢弃。因此记作O（log n），而不论对数的底是多少，是对数时间算法的标准记法。](https://zh.wikipedia.org/wiki/时间复杂度)
+
+O(1) < O(logn) < (n) < O(nlogn) < O(n^2) < O(n^3) < O(2^n) < O(n!) < O(n^n)
+
+
 
 ### 插入排序：直接插入，希尔排序
 
 ```C
 //每次都从后面无序那出一个像前边有序部分插入。
-void insertSort(int a[] , int size)
-{
-  int temp,j;
-  for (int i = 1; i < size ; i ++) {
-    temp = a[i];
-    for ( j = i - 1; (a[j] > temp) && (j >= 0); j--) {
-      a[j+1] = a[j];
-    }
-    a[j+1] = temp;
-  }
+void insertSort(int a[], int count ){
+    shell_insert(a, count, 1);
 }
-//第一种比较好理解的方法，但是代码比较长。
-void shellSortV1(int a[],int size)
-{
-    for (int gap = size/2 ; gap > 0 ; gap = gap / 2){
-        for (int i = 0 ; i < gap ; i ++ ){
-            for (int j = i + gap ; j < size ; j = j + gap){
-                int temp = a[j],m;
-                for (m = j - gap ; m >= 0 && a[m] > a[j] ; m = m - gap) {
-                    a[m+gap] = a[m];
-                }
-                a[m+gap] = temp;
-            }
+
+void shellSort(int a[], int count){
+    int gap = count/2;
+    while (gap > 0) {
+        shell_insert(a,count,gap);
+        gap = gap / 2;
+    }
+}
+
+void shell_insert(int a[], int count,int gap){
+    int temp,j ;
+    for (int i = gap ; i < count ; i = i + gap){
+        temp = a[i];
+        for (j = i - gap; j > 0 && a[j] > temp; j = j - gap) {
+            a[j + gap] = a[j];
         }
+        a[j + gap] = temp;
     }
 }
-//第二种比较精简，一个gap确定后，成功分组，所有组一起靠一个for循环遍历，相比第一种每一组单独遍历要简洁多。
-void shellSortV2(int a[] , int size)
-{
-    for (int gap = size/2 ; gap > 0 ; gap = gap / 2){
-        for (int i = gap ; i < size ; i = i + 1){
-            int temp = a[i],m;
-            for (m = i - gap ; m >= 0 && a[m] > temp ; m = m - gap) {
-                a[m+gap] = a[m];
-            }
-            a[m+gap] = temp;
-        }
-    }
-}
+
 ```
 
 排序类型  | 平均时间复杂度 | 最差时间复杂度 | 空间复杂度 | 是否稳定排序
@@ -126,15 +116,15 @@ void quickSort(int a[] , int left , int right)
 ```C
 void selectSort(int a[] , int size)
 {
-  int temp ,k;
+  int min;
   for (int i = 0; i < size - 1; i++) {
-    k = i;
+    min = i;
     for (int j = i + 1; j < size; j++) {
-      if (a[j] < a[k]) {
-        k = j;
+      if (a[j] < a[min]) {
+        min = j;
       }
     }
-    swap(&a[k],&a[i]);
+    swap(&a[min],&a[i]);
   }
 }
 //构建大顶堆
@@ -180,7 +170,7 @@ void heapSort(int a[] , int size)
 
 备注：
 
-1. 堆排序和选择排序 都是每次从无序区遍历选择最大或者最小的一项，放在有序的区域。但是堆排序在无序区对比的次数少直接选择排序，选择排序需要对比n次，堆排序对比的logn次。所以效率比选择排序高。
+1. 堆排序和选择排序 都是每次从无序区遍历选择最大或者最小的一项，放在有序的区域。但是堆排序在无序区对比的次数少于直接选择排序，选择排序需要对比n次，堆排序对比的logn次。所以效率比选择排序高。
 2. 堆排序由于也是通过远距离比较提高效率的，所以不能保证稳定性。
 3. 但堆排序的好处是最坏情况要比快速排序好很多 O(nlogn) < O(n^2)
 4. 在堆中找到最大值或者最小值，只需要logn的复杂度！可以用来海量数据搜素
@@ -235,8 +225,8 @@ void merge(int a[] , int begin , int mid , int end)
 2. 缺点就是需要额外n的空间。
 
 ## 数组和链表区别
-1. 数组空间连续，靠偏移量定位元素，时间复杂度O(1),插入和删除是 O(n). 
-2. 链表空间不连续，靠遍历节点定位元素，时间复杂度O(n),插入和删除是O(1).
+1. 数组空间连续，靠偏移量定位元素，查找时间复杂度O(1),以为移位，插入和删除是 O(n). 
+2. 链表空间不连续，靠遍历节点定位元素，查找时间复杂度O(n),不用移位，插入和删除是O(1).
 
 数组比链表更擅长查找，链表比数组更擅长修改。
 

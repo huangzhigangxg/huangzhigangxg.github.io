@@ -7,6 +7,8 @@ menu: Bookmark
 
 
 ## IOS
+- [铜雀台](https://iangeli.com/index.html) - 铜雀台 干货
+- [MrPeak杂货铺](http://mrpeak.cn/) 个人博客
 - [Swift官方博客](https://developer.apple.com/swift/blog/) - Swift官方博客
 - [wwdc2016](https://developer.apple.com/videos/wwdc2016/) - wwdc2016
 - [泊学](https://boxueio.com) - iOS 全栈开发视频教程

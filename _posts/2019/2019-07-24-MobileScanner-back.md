@@ -9,6 +9,10 @@ date: 2019-07-24 15:34:24.000000000 +09:00
 
 ![1](/assets/mobilescanner/mobilescanner_servers.png)
 
+MoblieScanner 是企业内部针对移动端定制的扫描平台，支持iOS/Andriod端，有静态扫描，应用权限扫描，多语言扫描，配置开关扫描等，由Jenkins执行脚本将分析后的数据上传后台服务并展示到前端，前端可以出发扫描任务，应用于测试接入环节。 
+
+下面内容是后端部分
+
 ## Nginx 服务器
 
 ### 为什么需要 Nginx？
@@ -116,7 +120,7 @@ lsof -i :80  查看所有接口
 NPM 是随同 NodeJS 一起安装的包管理工具，理解为 NodeJS 的代码增强。
 
 ```
-npm install express --save				  // 框架主题
+npm install express --save				  // 框架主体
 npm install body-parser --save         // 处理 JSON, Raw, Text 和 URL 编码的数据
 npm install cookie-parser --save		  // 解析Cookie的工具
 npm install log4js --save				  // 记录日志
@@ -268,6 +272,9 @@ scp root@XX.XX.XX.X:/home/xiaoju/logs/server-2019-11-28.log /Users/xiaogang/Desk
 V8采用即时编译技术（JIT），直接将JavaScript代码编译成本地平台的机器码。宏观上看，其步骤为JavaScript源码—>抽象语法树—>本地机器码，并且后一个步骤只依赖前一个步骤。这与其他解释器不同，例如Java语言需要先将源码编译成字节码，然后给JVM解释执行，JVM根据优化策略，运行过程中有选择地将一部分字节码编译成本地机器码。V8不生成中间代码，一步到位，编译成机器码，CPU就开始执行了。比起生成中间码解释执行的方式，V8的策略省去了一个步骤，程序会更早地开始运行。并且执行编译好的机器指令，也比解释执行中间码的速度更快。不足的是，缺少字节码这个中间表示，使得代码优化变得更困难。
 与传统的「编译-解析-执行」的流程不同，V8 处理 JavaScript，并没有二进制码或其他的中间码。
 简单来说，V8主要工作就是：「把 JavaScript 直译成机器码，然后运行」
+
+之前JS的运行也是一边解释一边执行，用到一行就解释一行，这样做的原因是，有些用不到的代码就可以不用解释了。但解释过的那些再次执行时，仍然要再解释一遍，反复解释。JIT在这里就会把热点代码，全都一次性的编译成的机器码并保存起来。
+
 
 
 2. 单线程提交，多线程执行，包装了多线程任务，任何人都能写出高性能的代码
