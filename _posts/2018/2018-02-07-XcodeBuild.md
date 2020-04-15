@@ -8,7 +8,7 @@ date: 2018-02-07 15:34:24.000000000 +09:00
 ---
 
 
-
+<!--
 ## 原因
 
 	1. test target 是否需要链接 app target的静态库 
@@ -23,7 +23,7 @@ date: 2018-02-07 15:34:24.000000000 +09:00
 	4. App Testing Guide
 	5. Unit Testing Apps and Frameworks
 	6. 了解 Xcode 构建过程. 各个参数的意义
-
+-->
 	
 	
 	

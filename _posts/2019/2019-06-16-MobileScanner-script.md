@@ -19,15 +19,15 @@ MoblieScanner 是企业内部针对移动端定制的扫描平台，支持iOS/An
 
 ![1](/assets/mobilescanner/someone.png)
 
-#### 选用的是出自Facebook的 [Infer](https://fbinfer.com) 扫描工具、
+选用的是出自Facebook的 [Infer](https://fbinfer.com) 静态扫描工具
 
-#### 通过 xcodebuild 生成 xcodebuild.log 并用 xcpretty -r json-compilation-database 生成 compilation_db.json 文件用与infer接下来的分析, 它在build/reports目录下。
+通过 xcodebuild 生成 xcodebuild.log 并用 xcpretty -r json-compilation-database 生成 compilation_db.json 文件用于infer接下来的分析, 它在build/reports目录下。
 
 ```
 xcodebuild archive -archivePath ${myarchivePath} -workspace ${myworkspace}.xcworkspace -scheme ${myscheme} -UseModernBuildSystem=NO -configuration Release | tee xcodebuild.log  | xcpretty _0.2.8_ -r json-compilation-database
 ```
 
-#### infer 解析 json-compilation-database 并设置扫描范围
+infer 解析 json-compilation-database 并设置扫描范围
 
 ```
 infer 
@@ -37,7 +37,7 @@ infer
 --skip-analysis-in-path "Pods/."		      //具体跳过哪些Pods
 ```
 
-#### 将Bug分部到人,依赖以onetool开发模式，也就是clone远程git仓库的源码。有了git的信息，就能通过git blame命令拿到最后一个更新的人的作者，在python有git的增强，直接用Repo(repo_path)初始化后，就能拿到足够的信息
+将Bug分派到人,依赖以onetool开发模式，也就是clone远程git仓库的源码。有了git的信息，就能通过git blame命令拿到最后一个更新的人的作者，在python有git的增强，直接用Repo(repo_path)初始化后，就能拿到足够的信息
 
 ```
 def editorFrom(self,project_path,file_path,line_num):
@@ -67,17 +67,19 @@ def editorFrom(self,project_path,file_path,line_num):
 
 抽象，这是整个计算机发展史，以及编程思想的核心，负责帮我们剔除不需要的部分，看清重要的，并提取出来，形成框架。
 
-面向机器
-面向过程<顺序，分支，循环>
-面向对象<封装﹑继承﹑多态>OOP
-面向协议<协议，组合, 泛型>POP
++ 面向机器
++ 面向过程<顺序，分支，循环>
++ 面向对象<封装﹑继承﹑多态>OOP
++ 面向协议<协议，组合, 泛型>POP
 
-### 动态语言 与 静态语言
+### 动态类型与静态类型，强类型与弱类型语言
 
-语言可以被分为静态型态系统，例如C++和Java，和动态型态系统（dynamically typed systems），例如Lisp，JavaScript
++ 强类型：偏向于不容忍隐式类型转换。譬如说haskell的int就不能变成double
++ 弱类型：偏向于容忍隐式类型转换。譬如说C语言的int可以变成double
++ 静态类型：编译的时候就知道每一个变量的类型，因为类型错误而不能做的事情是语法错误。
++ 动态类型：编译的时候不知道每一个变量的类型，因为类型错误而不能做的事情是运行时错误。譬如说你不能对一个数字a写a[10]当数组用。
 
-静态语言 安全，可以再编译器就被检测出来类型问题， 但是局限类型需要抽象和隔离。
-动态语言 不安全在什么地方呢？ 即使函数未实现 也可以编译通过
+Swift 是静态强类型语言，OC 是动态强类型语言
 
 ### 编译型语言 与 解释语言 
 
@@ -90,7 +92,7 @@ def editorFrom(self,project_path,file_path,line_num):
 之后若再次执行该脚本，则先检查本地是否有上述字节码文件。有则执行，否则重复上述步骤。
 
 Java JS Python Go Swift C#
-解释性语言，是在运行的时候将程序翻译成机器语言，在程序运行的前一刻还只有源代码没有可执行文件，程序每执行到源代码的某一条指令，就会有一个称为解释程序的外壳程序将源代码转换成二进制代码以供执行，也就是说，要不断地解释、执行、解释、执行、解释、执行.....。所以运行速度相对于C和C plus plus 慢，如图5 中的Java，C#等都是解释型语言。解释性语言的程序不需要编译，省了道工序，解释性语言在运行程序的时候才翻译。
+解释性语言，是在运行的时候将程序翻译成机器语言，在程序运行的前一刻还只有源代码没有可执行文件，程序每执行到源代码的某一条指令，就会有一个称为解释程序的外壳程序将源代码转换成二进制代码以供执行，也就是说，要不断地解释、执行、解释、执行、解释、执行.....。所以运行速度相对于C和C plus plus 慢，解释性语言的程序不需要编译，省了道工序，解释性语言在运行程序的时候才翻译。
 
 
 ### 语言运行时是什么？
