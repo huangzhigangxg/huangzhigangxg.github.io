@@ -47,12 +47,12 @@ MVP 时 打破了View原来对于Model的依赖 全都用Presenter来观察Model
 
 ### 优点：
 
-- 便于测试。Presenter对View是通过接口进行，在对Presenter进行不依赖UI环境的单元测试的时候。可以通过Mock一个View对象，这个对象只需要实现了View的接口即可。然后依赖注入到Presenter中，单元测试的时候就可以完整的测试Presenter业务逻辑的正确性。这里根据上面的例子给出了Presenter的单元测试样例。
+- 便于测试。Presenter对View是通过接口进行，在对Presenter进行不依赖UI环境的单元测试的时候。可以通过Mock一个View对象，这个对象只需要实现了View的接口即可。然后依赖注入到Presenter中，单元测试的时候就可以完整的测试Presenter业务逻辑的正确性。这里根据上面的例子给出了Presenter的单元测试样例。*MVP就已经解决难测试的问题*
 - View可以进行组件化。在MVP当中，View不依赖Model。这样就可以让View从特定的业务场景中脱离出来，可以说View可以做到对业务逻辑完全无知。它只需要提供一系列接口提供给上层操作。这样就可以做高度可复用的View组件。
 
 ### 缺点：
 
-- Presenter中除了业务逻辑以外，还有大量的View->Model，Model->View的手动同步逻辑，造成Presenter比较笨重，维护起来会比较困难。
+- Presenter中除了业务逻辑以外，还有大量的View->Model，Model->View的手动同步逻辑，造成Presenter比较笨重，维护起来会比较困难。*大量手动的同步代码直到MVVM双向绑定才被解决，也是MVVM的重大意义*
 
 ### Apple 理想中的MVC和MVP有点像？
 
@@ -69,7 +69,7 @@ MVVM 时 VM 把展示逻辑从C中拿出来和业务逻辑从M中拿出来合并
 
 ### 优点：
 
-- 提高可维护性。以前MVP都是要大量的接口类，来手动的同步View和ViewModel，造成代码量很大。而提供双向绑定机制，减少了代码，提高了代码的可维护性。（关键）！！！
+- 提高可维护性。以前MVP都是要大量的接口类，来手动的同步View和ViewModel，造成代码量很大。而提供双向绑定机制，减少了MVP下的代码，提高了代码的可维护性。（关键）！！！
 - 简化测试。因为同步逻辑是交由Binder做的，View跟着Model同时变更，所以只需要保证Model的正确性，View就正确。大大减少了对View同步更新的测试。
 
 ### 缺点：
@@ -80,7 +80,11 @@ MVVM 时 VM 把展示逻辑从C中拿出来和业务逻辑从M中拿出来合并
 
 
 ## 总结
-MVC中往往 VC 的耦合性比较大。总是成对儿出线。很难单独存在和应用。而V中又有着可能 业务逻辑(push,network,verification,action)和表示逻辑(loaction/city/country)在里面. 而这些在版本迭代更新中是可以继续保留的可以把他们留下啦。仅仅更改界面相关的东西就可以，需要有更轻量级ViewController的策略最好。所以VM层 就出现来。MVVM框架。M层最好还是简单纯数据 。这样方便他被当作值对象在ViewController中传递。
+MVC中往往 VC 的耦合性比较大。总是成对儿出线。很难单独存在和应用。而C中又有着可能 业务逻辑(push,network,verification,action)和表示逻辑(loaction/city/country)在里面. 而这些在版本迭代更新中是可以继续保留的可以把他们留下啦。仅仅更改界面相关的东西就可以，需要有更轻量级ViewController的策略最好。所以VM层 就出现来。MVVM框架。M层最好还是简单纯数据 。这样方便他被当作值对象在ViewController中传递。
+
+架构迭代从主要两个角度：
+划分清晰: 从苹果的MVC(V与M分离，但C中有布局逻辑)，到MVP和MVVM(C用来布局算作V，由P来处理剩下业务和表示逻辑)。
+支持测试: 从苹果的MVC(V与M分离，但C臃肿不可测试)，到MVP(可测试，但手动同步代码量大)，再到MVVM(可测试，双向绑定解决手动同步代码量大的问题)。
 
 简单的说：MVVM实际上是三层架构，M层（Model实体层）、V层（View表示层，它有DataContext属性，这个属性可以使用DataTemplate模板绑定VM层的数据用来显示）、VM层（ViewModel层，对Model层进行CRUD进行操作，同时对V层提供数据绑定）
 
@@ -99,7 +103,7 @@ ViewModel的属性：ViewModel的属性是View数据的来源。这些属性可�
 
 ViewModel的命令：ViewModel中的命令用于接受View的用户输入，并做相应的处理。我们也可以通过方法实现相同的功能。
 
-ViewModel的事件： ViewModel中的事件主要用来通知View做相应的UI变换。它一般在一个处理完成之后触发，随后需要View做出相应的非业务的操作。所以一般ViewModel中的事件的订阅者只是View，除非其他自定义的非View类之间的交互。
+ViewModel的事件：ViewModel中的事件主要用来通知View做相应的UI变换。它一般在一个处理完成之后触发，随后需要View做出相应的非业务的操作。所以一般ViewModel中的事件的订阅者只是View，除非其他自定义的非View类之间的交互。
 
 ViewModel的方法：有些事件是没有直接提供命令调用的，如自定义的事件。这时候我们可以通过CallMethodAction来调用ViewModel中的方法来完成相应的操作。
 

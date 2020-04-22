@@ -44,4 +44,4 @@ extension NSObject {
 就可以了。
 
 第二部分在NSThread里的方法主要作用是
-     线程间通信，其实就是在对方的RunLoop里添加Custom Input Source 自定义输入源 ，来调用这个Selector。这里注意的是 waitUntilDone 为YES时 会阻塞自己等待对方线程执行完，为NO时，就会立即执行对方的线程，如果都为同一个线程，当为YES，立刻执行阻塞下面的代码，为NO不会阻塞，则会放到下一次RunLoop里，找机会执行。
+     线程间通信，其实就是在对方的RunLoop里添加Custom Input Source 自定义输入源 ，来调用这个Selector。这里注意的是 waitUntilDone 为YES时 会阻塞自己等待对方线程执行完，为NO时，就不会阻塞自己。如果都为同一个线程，当为YES，立刻执行阻塞下面的代码，为NO不会阻塞，则会放到下一次RunLoop里，找机会执行。

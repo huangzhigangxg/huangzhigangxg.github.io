@@ -89,7 +89,7 @@ end
 
 ## 4.利用CocosPod将组件二进制化提高编译速度
 
-1. 将生成好的Login.framework 放到工程路径下。ps:选用relese版本，因为Build active Architecture Only Debug 为YES。Relese包含了真正的你想要的架构版本 也就是 `Valid Architectures`和 `Architectures`的交集
+1. 将生成好的Login.framework 放到工程路径下。
 2. 添加 `s.vendored_frameworks = 'Login/Login.framework'`到`Login.podspec `中
 3. 因为Login.framework已经包含了资源，所以去掉s.resources
 4. 因为不需要源代码，所以去掉s.source_files

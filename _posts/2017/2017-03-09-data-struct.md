@@ -151,9 +151,10 @@ void sift(int a[] ,int index , int size)
 
 void heapSort(int a[] , int size)
 {
-    for (int i = 0; i <= size/2 ; i ++) {
+    for (int i = size/2; i >= 0 ; i --) { //因为是向下移动，必须逆序从低向上才能构建正确的大顶堆
         sift(a,i,size);
     }
+
     for (int i = size - 1; i > 0; i -- ) {
         swap(&a[i], &a[0]);
         sift(a, 0, i);
